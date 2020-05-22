@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
-import Weather from 'components/Weather/Weather.jsx'
-import Navbar from 'components/Navbar/Navbar.jsx'
+import Navbar from 'components/Navbar/Navbar'
+import WeatherForm from 'components/Weather/WeatherForm'
 
 class App extends Component {
     render() {
@@ -16,14 +16,16 @@ class App extends Component {
                 <Switch>
                     {/* L'attribut 'path' représente l'URI concernée */}
                     <Route path="/">
-                        <Weather />
+                        <div className="container">
+                            <WeatherForm />
+                        </div>
                     </Route>
                 </Switch>
 
                 {/* Footer */}
-                <footer class="page-footer blue darken-3">
-                    <div class="footer-copyright blue darken-4">
-                        <div class="container"></div>
+                <footer className="page-footer blue darken-3">
+                    <div className="footer-copyright blue darken-4">
+                        <div className="container"></div>
                     </div>
                 </footer>
             </Router>
