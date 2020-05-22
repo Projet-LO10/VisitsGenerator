@@ -17,13 +17,13 @@ class Weather extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.city !== this.props.city) {
+        if (prevProps.lat !== this.props.lat && prevProps.lon !== this.props.lon) {
             this.fetchWeather()
         }
     }
 
     fetchWeather = () => {
-        fetch(`https://api.weatherbit.io/v2.0/forecast/daily?city=${this.props.city}&lang=fr&key=e4669577bb74436e9dd4bba4fd820014`)
+        fetch(`https://api.weatherbit.io/v2.0/forecast/daily?lat=${this.props.lat}&lon=${this.props.lon}&lang=fr&key=e4669577bb74436e9dd4bba4fd820014`)
             .then((response) => response.json())
             .then((result) => {
                 setTimeout(() => {
@@ -35,7 +35,7 @@ class Weather extends Component {
     render() {
         return (
             <div className="App">
-                <h2>Voici les données météo</h2>
+                <h3>Voici les données météo à {this.props.nom}</h3>
 
                 {/*CARD Générale ------------------------------------------*/}
                 <div className="row">
@@ -81,7 +81,9 @@ class Weather extends Component {
 }
 
 Weather.propTypes = {
-    city: PropTypes.string.isRequired,
+    lat: PropTypes.number.isRequired,
+    lon: PropTypes.number.isRequired,
+    nom: PropTypes.string.isRequired,
 }
 
 export default Weather

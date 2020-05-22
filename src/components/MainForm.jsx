@@ -7,7 +7,8 @@ class MainForm extends Component {
         super(props)
         this.state = {
             cityInputValue: '',
-            city: '',
+            currentCity: {},
+            citiesRawData: [],
             autocompleteOption: {},
         }
     }
@@ -19,14 +20,23 @@ class MainForm extends Component {
         this.fetchCities()
     }
 
-    handleClick = () => this.setState({ city: this.state.cityInputValue })
+    handleClick = () => {
+        const coordinates = this.state.citiesRawData.find((entry) => entry.nom === this.state.cityInputValue).centre.coordinates
+        this.setState({
+            currentCity: {
+                nom: this.state.cityInputValue,
+                lat: coordinates[1],
+                lon: coordinates[0],
+            },
+        })
+    }
 
-    handleAutocomplete = value => {
+    handleAutocomplete = (value) => {
         this.setState({ cityInputValue: value })
     }
 
     fetchCities = () => {
-        fetch(`https://geo.api.gouv.fr/communes?fields=nom&format=json&geometry=centre`)
+        fetch(`https://geo.api.gouv.fr/communes?fields=nom,centre&format=json&geometry=centre`)
             .then((x) => x.json())
             .then((data) => {
                 /*
@@ -45,6 +55,7 @@ class MainForm extends Component {
                     return previous
                 }, {})
                 this.setState({
+                    citiesRawData: data,
                     autocompleteOption: {
                         data: autocompleteData,
                         limit: 10,
@@ -70,7 +81,7 @@ class MainForm extends Component {
                         Rechercher
                     </Button>
                 </Row>
-                <Row>{this.state.city && <Weather city={this.state.city} />}</Row>
+                <Row>{this.state.currentCity.nom && <Weather nom={this.state.currentCity.nom} lat={this.state.currentCity.lat} lon={this.state.currentCity.lon} />}</Row>
             </>
         )
     }

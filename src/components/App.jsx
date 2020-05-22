@@ -21,8 +21,8 @@ class App extends Component {
                     <Route path="/">
                         <div className="container">
                             <MainForm />
-                            <MapContainer />
-                            <MediaWikiForm />
+                            {/* <MapContainer /> */}
+                            {/* <MediaWikiForm /> */}
                         </div>
                     </Route>
                 </Switch>
