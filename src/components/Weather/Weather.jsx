@@ -24,9 +24,7 @@ class Weather extends Component {
 
     fetchWeather = () => {
         fetch(`https://api.weatherbit.io/v2.0/forecast/daily?city=${this.props.city}&lang=fr&key=e4669577bb74436e9dd4bba4fd820014`)
-            .then((response) => {
-                return response.json()
-            })
+            .then((response) => response.json())
             .then((result) => {
                 setTimeout(() => {
                     this.setState({ post: result })
@@ -77,8 +75,6 @@ class Weather extends Component {
                     </div>
                 </div>
                 {/* ------------------------------------------*/}
-
-                <h2>Voici une carte google maps</h2>
             </div>
         )
     }

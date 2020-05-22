@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import Navbar from 'components/Navbar/Navbar'
 import MainForm from 'components/MainForm'
+import Vehicles from 'components/Vehicles/Vehicles'
+import MapContainer from 'components/GMaps/GMaps'
 
 class App extends Component {
     render() {
@@ -18,6 +20,10 @@ class App extends Component {
                     <Route path="/">
                         <div className="container">
                             <MainForm />
+                            {/*                             
+                            <Vehicles />
+                            <MapContainer /> 
+                            */}
                         </div>
                     </Route>
                 </Switch>

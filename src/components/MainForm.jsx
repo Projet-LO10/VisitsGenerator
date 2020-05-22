@@ -21,7 +21,9 @@ class MainForm extends Component {
 
     handleClick = () => this.setState({ city: this.state.cityInputValue })
 
-    handleAutocomplete = (e) => this.setState({ cityInputValue: e.target.value })
+    handleAutocomplete = value => {
+        this.setState({ cityInputValue: value })
+    }
 
     fetchCities = () => {
         fetch(`https://geo.api.gouv.fr/communes?fields=nom&format=json&geometry=centre`)
@@ -34,14 +36,21 @@ class MainForm extends Component {
                         firstItem: null,
                         secondItem: null
                     },
-                    limit: <any number>
+                    limit: <any number>,
+                    onAutocomplete: <a function>,
                 }
                 */
                 const autocompleteData = data.reduce((previous, current) => {
                     previous[current.nom] = null
                     return previous
                 }, {})
-                this.setState({ autocompleteOption: { data: autocompleteData, limit: 10 } })
+                this.setState({
+                    autocompleteOption: {
+                        data: autocompleteData,
+                        limit: 10,
+                        onAutocomplete: this.handleAutocomplete,
+                    },
+                })
             })
     }
 
@@ -49,7 +58,12 @@ class MainForm extends Component {
         return (
             <>
                 <Row>
-                    <Autocomplete placeholder="Ville" options={this.state.autocompleteOption} onChange={this.handleAutocomplete} />
+                    <Autocomplete
+                        placeholder="Ville"
+                        options={this.state.autocompleteOption}
+                        onChange={(e) => this.handleAutocomplete(e.target.value)}
+                        value={this.state.cityInputValue}
+                    />
                 </Row>
                 <Row>
                     <Button node="button" onClick={this.handleClick} waves="light">
