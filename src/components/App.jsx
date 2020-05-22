@@ -4,6 +4,7 @@ import Navbar from 'components/Navbar/Navbar'
 import WeatherForm from 'components/Weather/WeatherForm'
 import Vehicles from './Vehicles/Vehicles'
 import MapContainer from 'components/GMaps/GMaps'
+import MediaWikiForm from 'components/MediaWiki/MediaWikiForm'
 
 class App extends Component {
     render() {
@@ -22,6 +23,7 @@ class App extends Component {
                             <WeatherForm />
                             <Vehicles />
                             <MapContainer />
+                            <MediaWikiForm />
                         </div>
                     </Route>
                 </Switch>
