@@ -77,8 +77,6 @@ class Weather extends Component {
                     </div>
                 </div>
                 {/* ------------------------------------------*/}
-
-                <h2>Voici une carte google maps</h2>
             </div>
         )
     }
