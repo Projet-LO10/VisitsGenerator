@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
-import Weather from './Weather/Weather.jsx'
-import Navbar from './Navbar/Navbar.jsx'
+import Weather from 'components/Weather/Weather.jsx'
+import Navbar from 'components/Navbar/Navbar.jsx'
 
 class App extends Component {
     render() {

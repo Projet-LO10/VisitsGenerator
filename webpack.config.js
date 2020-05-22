@@ -38,6 +38,9 @@ module.exports = {
     },
     resolve: {
         extensions: ['.js', '.jsx'],
+        alias: {
+            components: `${__dirname}/src/components`
+        }
     },
     optimization: {
         minimizer: [new UglifyJsPlugin()],
