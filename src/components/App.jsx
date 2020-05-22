@@ -4,6 +4,7 @@ import Navbar from 'components/Navbar/Navbar'
 import MainForm from 'components/MainForm'
 import Vehicles from 'components/Vehicles/Vehicles'
 import MapContainer from 'components/GMaps/GMaps'
+import MediaWikiForm from 'components/MediaWiki/MediaWikiForm'
 
 class App extends Component {
     render() {
@@ -20,10 +21,8 @@ class App extends Component {
                     <Route path="/">
                         <div className="container">
                             <MainForm />
-                            {/*                             
-                            <Vehicles />
-                            <MapContainer /> 
-                            */}
+                            <MapContainer />
+                            <MediaWikiForm />
                         </div>
                     </Route>
                 </Switch>
