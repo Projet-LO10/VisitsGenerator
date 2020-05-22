@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 import Navbar from 'components/Navbar/Navbar'
 import WeatherForm from 'components/Weather/WeatherForm'
+import Vehicles from './Vehicles/Vehicles'
 
 class App extends Component {
     render() {
@@ -18,6 +19,7 @@ class App extends Component {
                     <Route path="/">
                         <div className="container">
                             <WeatherForm />
+                            <Vehicles />
                         </div>
                     </Route>
                 </Switch>
