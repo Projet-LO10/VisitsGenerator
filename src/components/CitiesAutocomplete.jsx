@@ -39,7 +39,7 @@ class CitiesAutocomplete extends Component {
     }
 
     fetchCities = () => {
-        fetch(`https://geo.api.gouv.fr/communes?fields=nom,centre&format=json&geometry=centre`)
+        fetch(`https://geo.api.gouv.fr/communes?fields=nom,centre,codesPostaux&format=json&geometry=centre`)
             .then((x) => x.json())
             .then((data) => {
                 /*

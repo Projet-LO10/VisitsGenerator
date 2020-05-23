@@ -4,6 +4,7 @@ import { Row, Button, Autocomplete } from 'react-materialize'
 import { withRouter } from 'react-router-dom'
 import queryString from 'query-string'
 import CitiesAutocomplete from 'components/CitiesAutocomplete.jsx'
+import Museums from 'components/Museums/Museums.jsx'
 
 class MainForm extends Component {
     constructor(props) {
@@ -41,6 +42,9 @@ class MainForm extends Component {
                     <Button node="button" onClick={this.handleClick} waves="light">
                         Rechercher
                     </Button>
+                </Row>
+                <Row>
+                    {query.nom && <Museums ville={query.nom} />}
                 </Row>
                 <Row>{query.lat && query.lon && query.nom && <Weather nom={query.nom} lat={Number(query.lat)} lon={Number(query.lon)} />}</Row>
             </>
