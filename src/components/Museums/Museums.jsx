@@ -11,6 +11,17 @@ class Museum extends Component {
     }
 
     componentDidMount() {
+        this.fetchMuseums()
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.ville !== this.props.ville) {
+            this.setState({ museum: undefined })
+            this.fetchMuseums()
+        }
+    }
+
+    fetchMuseums = () => {
         fetch(
             `https://data.culture.gouv.fr/api/records/1.0/search/?dataset=liste-et-localisation-des-musees-de-france&q=&rows=-1&facet=departement&facet=region&refine.ville=${this.props.ville.toUpperCase()}`
         )
@@ -21,21 +32,23 @@ class Museum extends Component {
     }
 
     render() {
-        const museums = this.state.museums ? this.state.museums.records : []
-        return museums.length ? (
-            <div>
-                <h3>Liste des musées à {this.props.ville}</h3>
-                {museums.map((museum) => (
-                    <Card key={museum.recordid} className="blue-grey darken-1" textClassName="white-text" title={museum.fields['nom_du_musee']}>
-                        <p>{museum.fields['addr']}</p>
-                        <p>{museum.fields['periode_ouverture']}</p>
-                        <p>{museum.fields['sitweb']}</p>
-                    </Card>
-                ))}
-            </div>
-        ) : (
-            <Preloader active flashing={false} size="big" />
-        )
+        if (this.state.museums) {
+            const museums = this.state.museums.records
+            return (
+                <div>
+                    <h3>Liste des musées à {this.props.ville}</h3>
+                    {museums.map((museum) => (
+                        <Card key={museum.recordid} className="blue-grey darken-1" textClassName="white-text" title={museum.fields['nom_du_musee']}>
+                            <p>{museum.fields['addr']}</p>
+                            <p>{museum.fields['periode_ouverture']}</p>
+                            <p>{museum.fields['sitweb']}</p>
+                        </Card>
+                    ))}
+                </div>
+            )
+        } else {
+            return <Preloader active flashing={false} size="big" />
+        }
     }
 }
 

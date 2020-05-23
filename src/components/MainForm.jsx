@@ -43,9 +43,7 @@ class MainForm extends Component {
                         Rechercher
                     </Button>
                 </Row>
-                <Row>
-                    {query.nom && <Museums ville={query.nom} />}
-                </Row>
+                <Row>{query.nom && <Museums ville={query.nom} />}</Row>
                 <Row>{query.lat && query.lon && query.nom && <Weather nom={query.nom} lat={Number(query.lat)} lon={Number(query.lon)} />}</Row>
             </>
         )
