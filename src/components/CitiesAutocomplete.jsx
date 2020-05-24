@@ -8,23 +8,28 @@ class CitiesAutocomplete extends Component {
         this.state = {
             cityInputValue: '',
             currentCity: {},
-            citiesRawData: [],
             autocompleteData: {},
         }
     }
 
-    /**
-     * When the component mounts, the system fetches one time (only one) french cities in geo.api.gouv.fr API
-     */
     componentDidMount() {
-        this.fetchCities()
+        // autocompleteData should be :
+        // {
+        //     firstItem: null,
+        //     secondItem: null
+        // },
+        const autocompleteData = this.props.cities.reduce((previous, current) => {
+            previous[current.nom] = null
+            return previous
+        }, {})
+        this.setState({ autocompleteData: autocompleteData })
     }
 
     /**
      * When a new value is entered in the autocomplete
      */
     handleAutocomplete = (value) => {
-        const city = this.state.citiesRawData.find((entry) => entry.nom === value)
+        const city = this.props.cities.find((entry) => entry.nom === value)
         this.updateParent(city)
         this.setState({ cityInputValue: value })
     }
@@ -34,31 +39,31 @@ class CitiesAutocomplete extends Component {
      */
     updateParent = (city) => {
         if (this.props.onCityChange) {
-            this.props.onCityChange(city)
+            this.props.onCityChange(city ? city.nom : '')
         }
     }
 
-    fetchCities = () => {
-        fetch(`https://geo.api.gouv.fr/communes?fields=nom,centre,codesPostaux&format=json&geometry=centre`)
-            .then((x) => x.json())
-            .then((data) => {
-                /*
-                autocompleteData should be :
-                {
-                    firstItem: null,
-                    secondItem: null
-                },
-                */
-                const autocompleteData = data.reduce((previous, current) => {
-                    previous[current.nom] = null
-                    return previous
-                }, {})
-                this.setState({
-                    citiesRawData: data,
-                    autocompleteData: autocompleteData,
-                })
-            })
-    }
+    // fetchCities = () => {
+    //     fetch(`https://geo.api.gouv.fr/communes?fields=nom,centre,codesPostaux&format=json&geometry=centre`)
+    //         .then((x) => x.json())
+    //         .then((data) => {
+    //             /*
+    //             autocompleteData should be :
+    //             {
+    //                 firstItem: null,
+    //                 secondItem: null
+    //             },
+    //             */
+    //             const autocompleteData = data.reduce((previous, current) => {
+    //                 previous[current.nom] = null
+    //                 return previous
+    //             }, {})
+    //             this.setState({
+    //                 citiesRawData: data,
+    //                 autocompleteData: autocompleteData,
+    //             })
+    //         })
+    // }
 
     render() {
         const options = {
@@ -66,7 +71,7 @@ class CitiesAutocomplete extends Component {
             limit: 10,
             onAutocomplete: this.handleAutocomplete,
         }
-        return this.state.citiesRawData.length ? (
+        return (
             <Autocomplete
                 placeholder={this.props.placeholder}
                 options={options}
@@ -74,11 +79,9 @@ class CitiesAutocomplete extends Component {
                 onChange={(e) => this.handleAutocomplete(e.target.value)}
                 // La valeur affichée dans l'input
                 value={this.state.cityInputValue}
-                // autocomplete="off" permet d'éviter que le navigateur propose lui-même l'autocomplétion pour les balises <input>
-                autocomplete="off"
+                // autoComplete="off" permet d'éviter que le navigateur propose lui-même l'autocomplétion pour les balises <input>
+                autoComplete="off"
             />
-        ) : (
-            <Autocomplete placeholder="Loading..." disabled />
         )
     }
 }
@@ -86,6 +89,7 @@ class CitiesAutocomplete extends Component {
 CitiesAutocomplete.propTypes = {
     placeholder: PropTypes.string,
     onCityChange: PropTypes.func,
+    cities: PropTypes.array.isRequired,
 }
 
 export default CitiesAutocomplete
