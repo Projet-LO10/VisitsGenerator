@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import Weather from 'components/Weather/Weather.jsx'
-import { Row, Button, Col, TextInput } from 'react-materialize'
+import { Row, Col, Button, DatePicker, TextInput } from 'react-materialize'
 import { withRouter } from 'react-router-dom'
 import queryString from 'query-string'
 import PropTypes from 'prop-types'
+import moment from 'moment'
 import CitiesAutocomplete from 'components/CitiesAutocomplete.jsx'
 import Museums from 'components/Museums/Museums.jsx'
 import Vehicles from 'components/Vehicles/Vehicles.jsx'
@@ -15,6 +16,8 @@ class MainForm extends Component {
         this.state = {
             car: undefined,
             cityName: '',
+            // date sera un objet moment()
+            date: undefined,
         }
     }
 
@@ -25,9 +28,12 @@ class MainForm extends Component {
      */
     handleClickCity = () => {
         let query = {}
-        const { cityName } = this.state
+        const { cityName, date } = this.state
         if (cityName) {
             query['nom'] = cityName
+        }
+        if (date) {
+            query['date'] = date.format('DD-MMM-YYYY')
         }
         this.props.history.push({
             pathname: '/',
@@ -62,6 +68,14 @@ class MainForm extends Component {
         this.setState({ car: e.target.value })
     }
 
+    /**
+     * Callback quand une date est sélectionnée
+     */
+    handleDateSelect = (date) => {
+        console.log(date)
+        this.state.date = moment(date)
+    }
+
     render() {
         // Paramètres de l'URI sous la forme d'un objet javascript "clé": "valeur"
         const query = queryString.parse(this.props.location.search)
@@ -72,10 +86,26 @@ class MainForm extends Component {
         return (
             <>
                 <Row>
-                    <CarForm/>
+                    <CarForm />
                 </Row>
                 <Row>
                     <CitiesAutocomplete placeholder="Ville" cities={this.props.cities} onCityChange={this.handleCityChange} />
+                    <DatePicker
+                        placeholder="Date"
+                        options={{
+                            // Se ferme automatiquement quand l'utilisateur clique
+                            autoClose: true,
+                            // Format utilisé pour l'affichage de la date
+                            format: 'dd mmm yyyy',
+                            // Current date
+                            minDate: moment().toDate(),
+                            // Current date + 15 days @see weatherapi
+                            maxDate: moment().add(15, 'days').toDate(),
+                            // Callback quand une date est sélectionnée
+                            onSelect: this.handleDateSelect,
+                        }}
+                        autoComplete="off"
+                    />
                 </Row>
                 <Row>
                     <Button node="button" onClick={this.handleClickCity} waves="light">

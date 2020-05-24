@@ -23,7 +23,7 @@ class Weather extends Component {
     }
 
     fetchWeather = () => {
-        fetch(`https://api.weatherbit.io/v2.0/forecast/daily?lat=${this.props.lat}&lon=${this.props.lon}&lang=fr&key=e4669577bb74436e9dd4bba4fd820014`)
+        fetch(`https://api.weatherbit.io/v2.0/forecast/daily?lat=${this.props.lat}&lon=${this.props.lon}&country=FR&lang=fr&key=e4669577bb74436e9dd4bba4fd820014`)
             .then((response) => response.json())
             .then((result) => {
                 setTimeout(() => {
@@ -54,7 +54,7 @@ class Weather extends Component {
                 <div className="row center">
                     <div className="card blue-grey darken-1">
                         <div className="card-content orange-text">
-                            <div class="card-image" style={{width: "10%",margin: "auto"}}>
+                            <div className="card-image" style={{width: "10%",margin: "auto"}}>
                               {this.state.post.data ? <img src={"src/images/weather/" + this.state.post.data[0]['weather']['icon'] + ".png"}></img> : <h6>Pays : Chargement...</h6>}
                             </div>
                             <span className="card-title">J+1</span>
@@ -70,7 +70,7 @@ class Weather extends Component {
                 <div className="row center">
                     <div className="card blue-grey darken-1">
                         <div className="card-content orange-text">
-                            <div class="card-image" style={{width: "10%",margin: "auto"}}>
+                            <div className="card-image" style={{width: "10%",margin: "auto"}}>
                               {this.state.post.data ? <img src={"src/images/weather/" + this.state.post.data[1]['weather']['icon'] + ".png"}></img> : <h6>Pays : Chargement...</h6>}
                             </div>
                             <span className="card-title">J+2</span>
