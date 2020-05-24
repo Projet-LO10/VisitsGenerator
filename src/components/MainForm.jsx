@@ -16,7 +16,7 @@ class MainForm extends Component {
         }
     }
 
-    handleClick = () => {
+    handleClickCity = () => {
         let query = {}
         if (this.state.city) {
             query['nom'] = this.state.city.nom
@@ -58,12 +58,12 @@ class MainForm extends Component {
                     </Col>
                 </Row>
                 <Row>
-                    <Button node="button" onClick={this.handleClick} waves="light">
+                    <Button node="button" onClick={this.handleClickCity} waves="light">
                         Rechercher
                     </Button>
                 </Row>
                 <Row>
-                  <TextInput id="CarInput" onChange={this.updateCarValue}/>
+                  <TextInput placeholder="Véhicule" id="CarInput" onChange={this.updateCarValue}/>
                 </Row>
                 <Row>
                     <Button node="button" onClick={this.handleClickCar} waves="light">
