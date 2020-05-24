@@ -4,12 +4,11 @@ import { Row, Button, Autocomplete, Select, TextInput } from 'react-materialize'
 
 class CarForm extends Component {
     constructor(props) {
-        super(props)
+        super(props);
+        this.state = {};
     }
 
-    state = {
-        post: undefined,
-    }
+
 
     /*Permet de gérer le component*/
     componentDidMount() {
@@ -34,56 +33,106 @@ class CarForm extends Component {
       fetch('https://public.opendatasoft.com/api/records/1.0/search/?&dataset=vehicules-commercialises&sort=puissance_maximale&facet=marque&facet=modele_utac&facet=carburant&facet=hybride&facet=puissance_administrative&facet=boite_de_vitesse&facet=annee&facet=carrosserie&facet=gamme')
       .then(response => response.json())
       .then((result) => {
-          var toto = result.facet_groups.find(element => element.name == "marque").facets;
+          var marques = result.facet_groups.find(element => element.name == "marque").facets;
 
-          var array1 = [];
-          toto.forEach(element => array1.push(element.path));
+          var res = [];
+          marques.forEach(element => res.push(element.path));
 
-          this.setState({ marques: array1});
-
-          return array1;
-      }).then((result)=>{
-          this.setState({ post: this.updateOptions(result) });
+          this.setState({ marques: res.sort()});
       })
     }
 
-    noRefCheck = (select) => {
-        //this.setState({ car: select.target.options[select.target.value].text })
+    fetchModele = (marque) => {
+      var tata = marque;
+      fetch(`https://public.opendatasoft.com/api/records/1.0/search/?&dataset=vehicules-commercialises&sort=puissance_maximale&facet=marque&facet=modele_utac&facet=carburant&facet=hybride&facet=puissance_administrative&facet=boite_de_vitesse&facet=annee&facet=carrosserie&facet=gamme&refine.marque=${tata}`)
+      .then(response => response.json())
+      .then((result) => {
+          var modeles = result.facet_groups.find(element => element.name == "modele_utac").facets;
+
+          var res = [];
+          modeles.forEach(element => {
+            var firstWord = element.path.split(" ")[0];
+            if(!res.includes(firstWord))
+              res.push(firstWord);
+          });
+
+          this.setState({ modeles: res.sort()});
+      })
+    }
+
+    selectMarqueCheck = (select) => {
+        this.setState({ marqueSelected: select.target.value})
+
+        this.fetchModele(select.target.value);
     }
 
     render() {
         return (
-          <Select
-            id="Select-9"
-            multiple={false}
-            onChange={this.noRefCheck}
-            options={{
-              classes: '',
-              dropdownOptions: {
-                alignment: 'left',
-                autoTrigger: true,
-                closeOnClick: true,
-                constrainWidth: true,
-                coverTrigger: true,
-                hover: false,
-                inDuration: 150,
-                onCloseEnd: null,
-                onCloseStart: null,
-                onOpenEnd: null,
-                onOpenStart: null,
-                outDuration: 250
-              }
-            }}
-            value=""
-            >
-            <option
-              disabled
+          <div>
+            <Select
+              id="Select-marque"
+              multiple={false}
+              onChange={this.selectMarqueCheck}
+              options={{
+                classes: '',
+                dropdownOptions: {
+                  alignment: 'left',
+                  autoTrigger: true,
+                  closeOnClick: true,
+                  constrainWidth: true,
+                  coverTrigger: true,
+                  hover: false,
+                  inDuration: 150,
+                  onCloseEnd: null,
+                  onCloseStart: null,
+                  onOpenEnd: null,
+                  onOpenStart: null,
+                  outDuration: 250
+                }
+              }}
               value=""
-            >
-              Choose your option
-            </option>
-            {this.state.marques ? this.state.marques.map((message) => <option> {message} </option>) : <option>a</option>}
-          </Select>
+              >
+              <option
+                disabled
+                value=""
+              >
+                Choose your option
+              </option>
+              {this.state.marques ? this.state.marques.map((message) => <option> {message} </option>) : <option>a</option>}
+            </Select>
+
+            <Select
+              id="Select-modele"
+              multiple={false}
+              onChange={this.noRefCheck}
+              options={{
+                classes: '',
+                dropdownOptions: {
+                  alignment: 'left',
+                  autoTrigger: true,
+                  closeOnClick: true,
+                  constrainWidth: true,
+                  coverTrigger: true,
+                  hover: false,
+                  inDuration: 150,
+                  onCloseEnd: null,
+                  onCloseStart: null,
+                  onOpenEnd: null,
+                  onOpenStart: null,
+                  outDuration: 250
+                }
+              }}
+              value=""
+              >
+              <option
+                disabled
+                value=""
+              >
+                Choose your option
+              </option>
+              {this.state.modeles ? this.state.modeles.map((message) => <option> {message} </option>) : <option>a</option>}
+            </Select>
+          </div>
         )
     }
 }
