@@ -1,16 +1,18 @@
 import React, { Component } from 'react'
 import Weather from 'components/Weather/Weather.jsx'
-import { Row, Button, Autocomplete } from 'react-materialize'
+import { Row, Button, Autocomplete, Select, TextInput } from 'react-materialize'
 import { withRouter } from 'react-router-dom'
 import queryString from 'query-string'
 import CitiesAutocomplete from 'components/CitiesAutocomplete.jsx'
 import Museums from 'components/Museums/Museums.jsx'
+import Vehicles from 'components/Vehicles/Vehicles.jsx'
 
 class MainForm extends Component {
     constructor(props) {
         super(props)
         this.state = {
             city: undefined,
+            car: undefined,
         }
     }
 
@@ -27,8 +29,23 @@ class MainForm extends Component {
         })
     }
 
+    handleClickCar = () => {
+        let query = {}
+        if (this.state.car) {
+            query['car'] = this.state.car
+        }
+        this.props.history.push({
+            pathname: '/',
+            search: queryString.stringify(query),
+        })
+    }
+
     handleCityChange = (city) => {
         this.setState({ city: city })
+    }
+
+    updateCarValue = (e) => {
+        this.setState({ car: e.target.value })
     }
 
     render() {
@@ -43,6 +60,15 @@ class MainForm extends Component {
                         Rechercher
                     </Button>
                 </Row>
+                <Row>
+                  <TextInput id="CarInput" onChange={this.updateCarValue}/>
+                </Row>
+                <Row>
+                    <Button node="button" onClick={this.handleClickCar} waves="light">
+                        Rechercher
+                    </Button>
+                </Row>
+                <Row>{query.car && <Vehicles car={query.car} />}</Row>
                 <Row>{query.nom && <Museums ville={query.nom} />}</Row>
                 <Row>{query.lat && query.lon && query.nom && <Weather nom={query.nom} lat={Number(query.lat)} lon={Number(query.lon)} />}</Row>
             </>
