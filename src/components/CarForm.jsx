@@ -96,7 +96,7 @@ class CarForm extends Component {
                 disabled
                 value=""
               >
-                Choose your option
+                Véhicule
               </option>
               {this.state.marques ? this.state.marques.map((message) => <option> {message} </option>) : <option>a</option>}
             </Select>
@@ -128,7 +128,7 @@ class CarForm extends Component {
                 disabled
                 value=""
               >
-                Choose your option
+                Marque
               </option>
               {this.state.modeles ? this.state.modeles.map((message) => <option> {message} </option>) : <option>a</option>}
             </Select>
