@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Preloader, Card } from 'react-materialize'
+import { Preloader, Card, CardPanel } from 'react-materialize'
 
 class Museum extends Component {
     constructor(props) {
@@ -35,16 +35,22 @@ class Museum extends Component {
         if (this.state.museums) {
             const museums = this.state.museums.records
             return (
-                <div>
-                    <h3>Liste des musées à {this.props.ville}</h3>
-                    {museums.map((museum) => (
-                        <Card key={museum.recordid} className="blue-grey darken-1" textClassName="white-text" title={museum.fields['nom_du_musee']}>
-                            <p>{museum.fields['addr']}</p>
-                            <p>{museum.fields['periode_ouverture']}</p>
-                            <p>{museum.fields['sitweb']}</p>
-                        </Card>
-                    ))}
-                </div>
+                <>
+                    {museums.length ? (
+                        <>
+                            <h3>Liste des musées à {this.props.ville}</h3>
+                            {museums.map((museum) => (
+                                <Card key={museum.recordid} className="blue-grey darken-1" textClassName="white-text" title={museum.fields['nom_du_musee']}>
+                                    <p>{museum.fields['addr']}</p>
+                                    <p>{museum.fields['periode_ouverture']}</p>
+                                    <p>{museum.fields['sitweb']}</p>
+                                </Card>
+                            ))}
+                        </>
+                    ) : (
+                        <CardPanel className="red accent-1">Aucun musée disponible à {this.props.ville}</CardPanel>
+                    )}
+                </>
             )
         } else {
             return <Preloader active flashing={false} size="big" />
