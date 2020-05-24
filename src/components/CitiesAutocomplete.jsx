@@ -42,29 +42,7 @@ class CitiesAutocomplete extends Component {
             this.props.onCityChange(city ? city.nom : '')
         }
     }
-
-    // fetchCities = () => {
-    //     fetch(`https://geo.api.gouv.fr/communes?fields=nom,centre,codesPostaux&format=json&geometry=centre`)
-    //         .then((x) => x.json())
-    //         .then((data) => {
-    //             /*
-    //             autocompleteData should be :
-    //             {
-    //                 firstItem: null,
-    //                 secondItem: null
-    //             },
-    //             */
-    //             const autocompleteData = data.reduce((previous, current) => {
-    //                 previous[current.nom] = null
-    //                 return previous
-    //             }, {})
-    //             this.setState({
-    //                 citiesRawData: data,
-    //                 autocompleteData: autocompleteData,
-    //             })
-    //         })
-    // }
-
+    
     render() {
         const options = {
             data: this.state.autocompleteData,

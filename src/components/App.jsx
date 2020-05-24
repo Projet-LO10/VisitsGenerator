@@ -23,22 +23,6 @@ class App extends Component {
         fetch(`https://geo.api.gouv.fr/communes?fields=nom,centre,codesPostaux&format=json&geometry=centre`)
             .then((data) => data.json())
             .then((data) => this.setState({ cities: data }))
-        /*
-                autocompleteData should be :
-                {
-                    firstItem: null,
-                    secondItem: null
-                },
-                */
-        //     const autocompleteData = data.reduce((previous, current) => {
-        //         previous[current.nom] = null
-        //         return previous
-        //     }, {})
-        //     this.setState({
-        //         citiesRawData: data,
-        //         autocompleteData: autocompleteData,
-        //     })
-        // })
     }
 
     render() {
