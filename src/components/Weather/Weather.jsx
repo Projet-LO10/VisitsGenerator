@@ -38,7 +38,7 @@ class Weather extends Component {
                 <h3>Voici les données météo à {this.props.nom}</h3>
 
                 {/*CARD Générale ------------------------------------------*/}
-                <div className="row">
+                <div className="row center">
                     <div className="card blue-grey darken-1">
                         <div className="card-content orange-text">
                             <span className="card-title">Informations générales</span>
@@ -51,9 +51,12 @@ class Weather extends Component {
                 {/* ------------------------------------------*/}
 
                 {/*CARD ------------------------------------------*/}
-                <div className="row">
+                <div className="row center">
                     <div className="card blue-grey darken-1">
                         <div className="card-content orange-text">
+                            <div class="card-image" style={{width: "10%",margin: "auto"}}>
+                              {this.state.post.data ? <img src={"src/images/weather/" + this.state.post.data[0]['weather']['icon'] + ".png"}></img> : <h6>Pays : Chargement...</h6>}
+                            </div>
                             <span className="card-title">J+1</span>
                             {this.state.post.data ? <h6>Date : {this.state.post.data[0]['valid_date']}</h6> : <h6>Date : Chargement...</h6>}
                             {this.state.post.data ? <h6>Température : {this.state.post.data[0]['temp']}</h6> : <h6>Température : Chargement...</h6>}
@@ -64,9 +67,12 @@ class Weather extends Component {
                 {/* ------------------------------------------*/}
 
                 {/*CARD ------------------------------------------*/}
-                <div className="row">
+                <div className="row center">
                     <div className="card blue-grey darken-1">
                         <div className="card-content orange-text">
+                            <div class="card-image" style={{width: "10%",margin: "auto"}}>
+                              {this.state.post.data ? <img src={"src/images/weather/" + this.state.post.data[1]['weather']['icon'] + ".png"}></img> : <h6>Pays : Chargement...</h6>}
+                            </div>
                             <span className="card-title">J+2</span>
                             {this.state.post.data ? <h6>Date : {this.state.post.data[1]['valid_date']}</h6> : <h6>Date : Chargement...</h6>}
                             {this.state.post.data ? <h6>Température : {this.state.post.data[1]['temp']}</h6> : <h6>Température : Chargement...</h6>}
