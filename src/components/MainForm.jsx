@@ -17,7 +17,7 @@ class MainForm extends Component {
             car: undefined,
             cityName: '',
             // date sera un objet moment()
-            date: undefined,
+            date: moment(),
         }
     }
 
@@ -93,6 +93,8 @@ class MainForm extends Component {
                     <DatePicker
                         placeholder="Date"
                         options={{
+                            // Valeur par défaut
+                            defaultDate: moment().toDate(),
                             // Se ferme automatiquement quand l'utilisateur clique
                             autoClose: true,
                             // Format utilisé pour l'affichage de la date
@@ -105,6 +107,7 @@ class MainForm extends Component {
                             onSelect: this.handleDateSelect,
                         }}
                         autoComplete="off"
+                        defaultValue={moment().format('DD MMM YYYY')}
                     />
                 </Row>
                 <Row>
