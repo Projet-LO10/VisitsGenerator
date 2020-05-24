@@ -7,6 +7,7 @@ import PropTypes from 'prop-types'
 import CitiesAutocomplete from 'components/CitiesAutocomplete.jsx'
 import Museums from 'components/Museums/Museums.jsx'
 import Vehicles from 'components/Vehicles/Vehicles.jsx'
+import CarForm from './CarForm.jsx'
 
 class MainForm extends Component {
     constructor(props) {
@@ -53,6 +54,10 @@ class MainForm extends Component {
         this.setState({ cityName: cityName })
     }
 
+    /*noRefCheck = (select) => {
+        this.setState({ car: select.target.options[select.target.value].text })
+    }*/
+
     updateCarValue = (e) => {
         this.setState({ car: e.target.value })
     }
@@ -66,6 +71,9 @@ class MainForm extends Component {
         const city = query.nom ? this.props.cities.find((city) => city.nom === query.nom) : {}
         return (
             <>
+                <Row>
+                    <CarForm/>
+                </Row>
                 <Row>
                     <CitiesAutocomplete placeholder="Ville" cities={this.props.cities} onCityChange={this.handleCityChange} />
                 </Row>
