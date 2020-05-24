@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Autocomplete } from 'react-materialize'
+import { Autocomplete, ProgressBar } from 'react-materialize'
 
 class CitiesAutocomplete extends Component {
     constructor(props) {
@@ -66,8 +66,19 @@ class CitiesAutocomplete extends Component {
             limit: 10,
             onAutocomplete: this.handleAutocomplete,
         }
-        return (
-            <Autocomplete placeholder="Ville" options={options} onChange={(e) => this.handleAutocomplete(e.target.value)} value={this.state.cityInputValue} />
+        return this.state.citiesRawData.length ? (
+            <Autocomplete
+                placeholder={this.props.placeholder}
+                options={options}
+                // Callback déclanché quand l'utilisateur entre une valeur à la main dans l'input (pas quand il clique sur une suggestion d'autocomplete)
+                onChange={(e) => this.handleAutocomplete(e.target.value)}
+                // La valeur affichée dans l'input
+                value={this.state.cityInputValue}
+                // autocomplete="off" permet d'éviter que le navigateur propose lui-même l'autocomplétion pour les balises <input>
+                autocomplete="off"
+            />
+        ) : (
+            <Autocomplete placeholder="Loading..." disabled />
         )
     }
 }

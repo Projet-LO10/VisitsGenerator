@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Weather from 'components/Weather/Weather.jsx'
-import { Row, Button, Autocomplete } from 'react-materialize'
+import { Row, Col, Button } from 'react-materialize'
 import { withRouter } from 'react-router-dom'
 import queryString from 'query-string'
 import CitiesAutocomplete from 'components/CitiesAutocomplete.jsx'
@@ -36,7 +36,9 @@ class MainForm extends Component {
         return (
             <>
                 <Row>
-                    <CitiesAutocomplete onCityChange={this.handleCityChange} />
+                    <Col s="4">
+                        <CitiesAutocomplete placeholder="Ville" onCityChange={this.handleCityChange} />
+                    </Col>
                 </Row>
                 <Row>
                     <Button node="button" onClick={this.handleClick} waves="light">
