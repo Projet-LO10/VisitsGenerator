@@ -19,7 +19,7 @@ class Weather extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.lat !== this.props.lat && prevProps.lon !== this.props.lon) {
+        if (prevProps.lat !== this.props.lat || prevProps.lon !== this.props.lon || prevProps.nom !== this.props.nom || prevProps.date !== this.props.date) {
             this.fetchWeather()
         }
     }
