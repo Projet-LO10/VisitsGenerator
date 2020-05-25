@@ -22,8 +22,9 @@ class HistoricalMonuments extends Component {
     }
 
     fetchMonuments = () => {
+        const refine = this.props.ville.toUpperCase() === 'PARIS' ? 'dpt_lettre' : 'commune' 
         fetch(
-            `https://data.culture.gouv.fr/api/records/1.0/search/?dataset=liste-des-immeubles-proteges-au-titre-des-monuments-historiques&q=&facet=reg&facet=dpt_lettre&refine.commune=${this.props.ville}`
+            `https://data.culture.gouv.fr/api/records/1.0/search/?dataset=liste-des-immeubles-proteges-au-titre-des-monuments-historiques&q=&facet=reg&facet=dpt_lettre&refine.${refine}=${this.props.ville}`
         )
             .then((data) => data.json())
             .then((data) => {
