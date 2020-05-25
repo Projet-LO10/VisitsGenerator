@@ -24,7 +24,7 @@ class CarForm extends Component {
 
       return (
         <div>
-          {marques.map((message) => <div> message </div>)}
+          {marques.map((message, i) => <div key={i}> message </div>)}
         </div>
       );
     }
@@ -98,7 +98,7 @@ class CarForm extends Component {
               >
                 Véhicule
               </option>
-              {this.state.marques ? this.state.marques.map((message) => <option> {message} </option>) : <option>a</option>}
+              {this.state.marques ? this.state.marques.map((message, i) => <option key={i}> {message} </option>) : <option>a</option>}
             </Select>
 
             <Select
@@ -130,7 +130,7 @@ class CarForm extends Component {
               >
                 Marque
               </option>
-              {this.state.modeles ? this.state.modeles.map((message) => <option> {message} </option>) : <option>a</option>}
+              {this.state.modeles ? this.state.modeles.map((message, i) => <option key={i}> {message} </option>) : <option>a</option>}
             </Select>
           </div>
         )
