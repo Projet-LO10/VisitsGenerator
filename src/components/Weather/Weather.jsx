@@ -19,7 +19,7 @@ class Weather extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.lat !== this.props.lat || prevProps.lon !== this.props.lon || prevProps.nom !== this.props.nom || prevProps.date !== this.props.date) {
+        if (prevProps.lat !== this.props.lat || prevProps.lon !== this.props.lon || prevProps.ville !== this.props.ville || prevProps.date !== this.props.date) {
             this.fetchWeather()
         }
     }
@@ -51,7 +51,7 @@ class Weather extends Component {
 
         return (
             <div className="App">
-                <h3>Voici les données météo à {this.props.nom}</h3>
+                <h3>Voici les données météo à {this.props.ville}</h3>
 
                 {/*CARD Générale ------------------------------------------*/}
                 <Card className="center blue-grey darken-1 orange-text">
@@ -120,7 +120,7 @@ class Weather extends Component {
 Weather.propTypes = {
     lat: PropTypes.number.isRequired,
     lon: PropTypes.number.isRequired,
-    nom: PropTypes.string.isRequired,
+    ville: PropTypes.string.isRequired,
     date: PropTypes.string.isRequired,
 }
 

@@ -31,7 +31,7 @@ class MainForm extends Component {
         let query = {}
         const { cityName, date } = this.state
         if (cityName) {
-            query['nom'] = cityName
+            query['ville'] = cityName
         }
         if (date) {
             query['date'] = date.format('DD-MMM-YYYY')
@@ -83,7 +83,7 @@ class MainForm extends Component {
         // S'il existe un paramètre nom dans l'URI et qu'il correspond à une ville connue
         // la variable city prend l'objet correspondant avec son nom, ses coordonées, etc.
         // sinon la variable vaut un objet vide
-        const city = query.nom ? this.props.cities.find((city) => city.nom === query.nom) : {}
+        const city = query.ville ? this.props.cities.find((city) => city.nom === query.ville) : {}
         return (
             <>
                 <Row>
@@ -125,9 +125,9 @@ class MainForm extends Component {
                     </Button>
                 </Row>
                 <Row>{query.car && <Vehicles car={query.car} />}</Row>
-                <Row>{query.nom && city && <Museums ville={query.nom} />}</Row>
-                <Row>{query.nom && city && <HistoricalMonuments ville={query.nom} />}</Row>
-                <Row>{query.nom && query.date && city && <Weather nom={city.nom} lat={Number(city.centre.coordinates[1])} lon={Number(city.centre.coordinates[0])} date={query.date} />}</Row>
+                <Row>{query.ville && city && <Museums ville={query.ville} />}</Row>
+                <Row>{query.ville && city && <HistoricalMonuments ville={query.ville} />}</Row>
+                <Row>{query.ville && query.date && city && <Weather ville={query.ville} lat={Number(city.centre.coordinates[1])} lon={Number(city.centre.coordinates[0])} date={query.date} />}</Row>
             </>
         )
     }
