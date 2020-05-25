@@ -8,7 +8,8 @@ import moment from 'moment'
 import CitiesAutocomplete from 'components/CitiesAutocomplete.jsx'
 import Museums from 'components/Museums/Museums.jsx'
 import Vehicles from 'components/Vehicles/Vehicles.jsx'
-import CarForm from './CarForm.jsx'
+import HistoricalMonuments from 'components/HistoricalMonuments/HistoricalMonuments.jsx'
+import CarForm from 'components/CarForm.jsx'
 
 class MainForm extends Component {
     constructor(props) {
@@ -125,6 +126,7 @@ class MainForm extends Component {
                 </Row>
                 <Row>{query.car && <Vehicles car={query.car} />}</Row>
                 <Row>{query.nom && city && <Museums ville={query.nom} />}</Row>
+                <Row>{query.nom && city && <HistoricalMonuments ville={query.nom} />}</Row>
                 <Row>{query.nom && query.date && city && <Weather nom={city.nom} lat={Number(city.centre.coordinates[1])} lon={Number(city.centre.coordinates[0])} date={query.date} />}</Row>
             </>
         )
