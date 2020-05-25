@@ -33,6 +33,7 @@ class HistoricalMonuments extends Component {
 
     render() {
         if (this.state.monuments) {
+            // Selectionne seulement les monuments ayant un champ geometry qui contient les latitudes et longitudes
             const monuments = this.state.monuments.records.filter((monument) => monument.hasOwnProperty('geometry'))
             return (
                 <>
