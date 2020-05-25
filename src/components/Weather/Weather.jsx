@@ -38,7 +38,7 @@ class Weather extends Component {
     }
 
     isDateValid = (date) => {
-        return moment(date).isBetween(moment(), moment().add(15, 'days'))
+        return moment(date).isBetween(moment().add(-1, 'days'), moment().add(15, 'days'))
     }
 
     render() {
