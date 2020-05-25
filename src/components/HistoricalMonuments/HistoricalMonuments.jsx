@@ -33,19 +33,30 @@ class HistoricalMonuments extends Component {
 
     render() {
         if (this.state.monuments) {
-            const monuments = this.state.monuments.records
+            const monuments = this.state.monuments.records.filter((monument) => monument.hasOwnProperty('geometry'))
             return (
                 <>
                     {monuments.length ? (
                         <>
                             <h3>Liste des monuments historiques à {this.props.ville}</h3>
-                            {monuments.map((monument) => (
-                                <Card key={monument.recordid} className="blue-grey darken-1" textClassName="white-text" title={monument.fields['tico']}>
-                                    <p>{monument.fields['waddrs']}</p>
-                                    <p>{monument.fields['hist']}</p>
-                                    <p>{monument.fields['scle']}</p>
-                                </Card>
-                            ))}
+                            {monuments.map((monument) => {
+                                // Certains monuments sont dôtés de coordonnées, d'autres noms:
+                                // Ceux-ci ont un objet geometry
+                                // avec un champ coordinates [longitude, latitude]
+                                const { coordinates } = monument.geometry,
+                                    lon = coordinates[0],
+                                    lat = coordinates[1]
+                                return (
+                                    <Card key={monument.recordid} className="blue-grey darken-1" textClassName="white-text" title={monument.fields['tico']}>
+                                        <p>{monument.fields['adrs']}</p>
+                                        <p>{monument.fields['hist']}</p>
+                                        <p>{monument.fields['scle']}</p>
+                                        <p>
+                                            Latitude : {lat}, longitude: {lon}
+                                        </p>
+                                    </Card>
+                                )
+                            })}
                         </>
                     ) : (
                         <CardPanel className="red accent-1">Aucun monument disponible à {this.props.ville}</CardPanel>
