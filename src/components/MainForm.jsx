@@ -125,7 +125,7 @@ class MainForm extends Component {
                 </Row>
                 <Row>{query.car && <Vehicles car={query.car} />}</Row>
                 <Row>{query.nom && city && <Museums ville={query.nom} />}</Row>
-                <Row>{query.nom && city && <Weather nom={city.nom} lat={Number(city.centre.coordinates[1])} lon={Number(city.centre.coordinates[0])} />}</Row>
+                <Row>{query.nom && query.date && city && <Weather nom={city.nom} lat={Number(city.centre.coordinates[1])} lon={Number(city.centre.coordinates[0])} date={query.date} />}</Row>
             </>
         )
     }
