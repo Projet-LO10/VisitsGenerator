@@ -39,7 +39,7 @@ class App extends Component {
                     <Route path="/">
                         <div className="container">
                             {this.state.cities ? <MainForm cities={this.state.cities} /> : <Preloader active flashing={false} size="big" />}
-                            {/* <MapContainer /> */}
+                            {<MapContainer />}
                             {/* <MediaWikiForm /> */}
                         </div>
                     </Route>
