@@ -45,6 +45,7 @@
         "google-maps-react": "^2.0.6",
         "materialize-css": "^1.0.0",
         "moment": "^2.26.0",
+        "node-fetch": "^2.6.0",
         "prop-types": "^15.7.2",
         "query-string": "^6.12.1",
         "react": "^16.13.1",
