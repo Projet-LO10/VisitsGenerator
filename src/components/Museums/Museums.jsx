@@ -16,7 +16,7 @@ class Museum extends Component {
 
     componentDidUpdate(prevProps) {
         if (prevProps.ville !== this.props.ville) {
-            this.setState({ museum: undefined })
+            this.setState({ museums: undefined })
             this.fetchMuseums()
         }
     }
