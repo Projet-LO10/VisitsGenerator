@@ -38,11 +38,15 @@ class Weather extends Component {
     }
 
     isDateValid = (date) => {
-        return moment(date).isBetween(moment().add(-1, 'days'), moment().add(15, 'days'))
+        const before = moment().subtract(1, 'days')        
+        const after = moment().add(15, 'days')
+        const now = moment(date)
+        return now.isBetween(before, after)
+        // return moment(date).isBetween(moment().subtract(1, 'days'), moment().add(15, 'days'))
     }
 
     render() {
-        const date = moment(this.props.date).format('YYYY-MM-DD')
+        const date = moment(this.props.date, 'DD-MMM-YYYY').format('YYYY-MM-DD')
         const data = this.state.post.data ? this.state.post.data.find((entry) => entry.valid_date === date) : undefined
 
         if (!this.isDateValid(date)) {
