@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import queryString from 'query-string'
 import { Preloader } from 'react-materialize'
 import Weather from 'components/Weather/Weather'
 import { fetchAll } from 'model/fetch'
@@ -25,18 +23,15 @@ class Visite extends Component {
     }
 
     render() {
-        console.log(this.state.data)
-
         if (this.state.data.fetching) {
             return <Preloader active flashing={false} size="big" />
         }
 
-        const query = queryString.parse(this.props.location.search)
-        const { ville, lat, lon } = this.props
+        const { ville, lat, lon, date } = this.props
         const { weather, museums, monuments } = this.state.data
         return (
             <div>
-                <Weather dataSource={weather} ville={ville} date={query.date} />
+                <Weather dataSource={weather} ville={ville} date={date} />
                 {/* Ajouter les composants React ici */}
             </div>
         )
@@ -50,4 +45,4 @@ Visite.propTypes = {
     date: PropTypes.string.isRequired,
 }
 
-export default withRouter(Visite)
+export default Visite
