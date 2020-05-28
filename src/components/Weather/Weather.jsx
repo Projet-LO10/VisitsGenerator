@@ -8,50 +8,52 @@ class Weather extends Component {
         super(props)
     }
 
-    state = {
-        post: {},
-        ville: {},
-    }
+    // state = {
+    //     post: {},
+    //     ville: {},
+    // }
 
     /*Permet de gérer le component*/
-    componentDidMount() {
-        this.fetchWeather()
-    }
+    // componentDidMount() {
+    //     this.fetchWeather()
+    // }
 
-    componentDidUpdate(prevProps) {
-        if (prevProps.lat !== this.props.lat || prevProps.lon !== this.props.lon || prevProps.ville !== this.props.ville || prevProps.date !== this.props.date) {
-            this.fetchWeather()
-        }
-    }
+    // componentDidUpdate(prevProps) {
+    //     if (prevProps.lat !== this.props.lat || prevProps.lon !== this.props.lon || prevProps.ville !== this.props.ville || prevProps.date !== this.props.date) {
+    //         this.fetchWeather()
+    //     }
+    // }
 
-    fetchWeather = () => {
-        fetch(
-            `https://api.weatherbit.io/v2.0/forecast/daily?lat=${this.props.lat}&lon=${this.props.lon}&country=FR&lang=fr&key=e4669577bb74436e9dd4bba4fd820014`
-        )
-            .then((response) => response.json())
-            .then((result) => {
-                // setTimeout(() => {
-                //     this.setState({ post: result })
-                // }, 1500)
-                this.setState({ post: result })
-            })
-    }
+    // fetchWeather = () => {
+    //     fetch(
+    //         `https://api.weatherbit.io/v2.0/forecast/daily?lat=${this.props.lat}&lon=${this.props.lon}&country=FR&lang=fr&key=e4669577bb74436e9dd4bba4fd820014`
+    //     )
+    //         .then((response) => response.json())
+    //         .then((result) => {
+    //             // setTimeout(() => {
+    //             //     this.setState({ post: result })
+    //             // }, 1500)
+    //             this.setState({ post: result })
+    //         })
+    // }
 
-    isDateValid = (date) => {
-        const before = moment().subtract(1, 'days')        
-        const after = moment().add(15, 'days')
-        const now = moment(date)
-        return now.isBetween(before, after)
-        // return moment(date).isBetween(moment().subtract(1, 'days'), moment().add(15, 'days'))
-    }
+    // isDateValid = (date) => {
+    //     const before = moment().subtract(1, 'days')
+    //     const after = moment().add(15, 'days')
+    //     const now = moment(date)
+    //     return now.isBetween(before, after)
+    //     // return moment(date).isBetween(moment().subtract(1, 'days'), moment().add(15, 'days'))
+    // }
 
     render() {
+        const { dataSource } = this.props
+        console.log(dataSource)
         const date = moment(this.props.date, 'DD-MMM-YYYY').format('YYYY-MM-DD')
-        const data = this.state.post.data ? this.state.post.data.find((entry) => entry.valid_date === date) : undefined
+        const data = dataSource.data.find((entry) => entry.valid_date === date)
 
-        if (!this.isDateValid(date)) {
-            return <CardPanel className="red accent-1">{date} n'est pas une date valide</CardPanel>
-        }
+        // if (!this.isDateValid(date)) {
+        //     return <CardPanel className="red accent-1">{date} n'est pas une date valide</CardPanel>
+        // }
 
         return (
             <div className="App">
@@ -60,22 +62,40 @@ class Weather extends Component {
                 {/*CARD Générale ------------------------------------------*/}
                 <Card className="center blue-grey darken-1 orange-text">
                     <span className="card-title">Informations générales</span>
-                    {this.state.post.city_name ? <h6>Ville : {this.state.post.city_name}</h6> : <h6>Ville : Chargement...</h6>}
+                    <h6>Ville : {dataSource.city_name}</h6>
+                    <h6>Timezone : {dataSource.timezone}</h6>
+                    <h6>Pays : {dataSource.country_code}</h6>
+                </Card>
+
+                {/*CARD pour le jour demandé ------------------------------------------*/}
+                <Card className="center blue-grey darken-1 orange-text">
+                    <div className="card-image" style={{ width: '10%', margin: 'auto' }}>
+                        <img src={'src/images/weather/' + data['weather']['icon'] + '.png'}></img>
+                    </div>
+                    <span className="card-title">Météo le {date}</span>
+                    <h6>Température : {data['temp']} degrés</h6>
+                    <h6>Description : {data['weather']['description']}</h6>
+                </Card>
+
+                {/*CARD Générale ------------------------------------------*/}
+                {/* <Card className="center blue-grey darken-1 orange-text">
+                    <span className="card-title">Informations générales</span>
+                    {this.state.post.city_name ? <h6>Ville : {thi.state.psost.city_name}</h6> : <h6>Ville : Chargement...</h6>}
                     {this.state.post.timezone ? <h6>Timezone : {this.state.post.timezone}</h6> : <h6>Timezone : Chargement...</h6>}
                     {this.state.post.country_code ? <h6>Pays : {this.state.post.country_code}</h6> : <h6>Pays : Chargement...</h6>}
-                </Card>
+                </Card> */}
                 {/* ------------------------------------------*/}
 
                 {/*CARD pour le jour demandé ------------------------------------------*/}
 
-                <Card className="center blue-grey darken-1 orange-text">
+                {/* <Card className="center blue-grey darken-1 orange-text">
                     <div className="card-image" style={{ width: '10%', margin: 'auto' }}>
                         {data ? <img src={'src/images/weather/' + data['weather']['icon'] + '.png'}></img> : <h6>Chargement...</h6>}
                     </div>
                     <span className="card-title">Météo le {date}</span>
                     {data ? <h6>Température : {data['temp']}</h6> : <h6>Température : Chargement...</h6>}
                     {data ? <h6>Description : {data['weather']['description']}</h6> : <h6>Description : Chargement...</h6>}
-                </Card>
+                </Card> */}
 
                 {/*CARD ------------------------------------------*/}
                 {/* <div className="row center">
@@ -122,8 +142,7 @@ class Weather extends Component {
 }
 
 Weather.propTypes = {
-    lat: PropTypes.number.isRequired,
-    lon: PropTypes.number.isRequired,
+    dataSource: PropTypes.object.isRequired,
     ville: PropTypes.string.isRequired,
     date: PropTypes.string.isRequired,
 }
