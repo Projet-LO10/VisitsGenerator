@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Preloader } from 'react-materialize'
 import Weather from 'components/Weather/Weather'
+import Museums from 'components/Museums/Museums'
+import HistoricalMonuments from 'components/HistoricalMonuments/HistoricalMonuments'
 import { fetchAll } from 'model/fetch'
 
 class Visite extends Component {
@@ -15,6 +17,22 @@ class Visite extends Component {
     }
 
     componentDidMount() {
+        this.loadData()
+    }
+
+    componentDidUpdate(prevProps) {
+        const { ville, lat, lon } = this.props
+        const { prevVille, prevLat, prevLon } = prevProps
+        if (ville !== prevVille || lat !== prevLat || lon !== prevLon) {
+            this.loadData()
+        }
+    }
+
+    /**
+     * Fetch toutes les API puis change l'état du composant quand la réponse est arrivée
+     * Attend que toutes les réponses soient arrivées pour rentrer dans le then
+     */
+    loadData = () => {
         const { ville, lat, lon } = this.props
         fetchAll(ville, lat, lon).then((result) => {
             // L'objet "data" de l'état est rempli par l'objet récupéré par le fetch
@@ -23,6 +41,7 @@ class Visite extends Component {
     }
 
     render() {
+        // Si le composant charge
         if (this.state.data.fetching) {
             return <Preloader active flashing={false} size="big" />
         }
@@ -32,6 +51,8 @@ class Visite extends Component {
         return (
             <div>
                 <Weather dataSource={weather} ville={ville} date={date} />
+                <Museums dataSource={museums} ville={ville} />
+                <HistoricalMonuments dataSource={monuments} ville={ville} />
                 {/* Ajouter les composants React ici */}
             </div>
         )
