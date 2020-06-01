@@ -4,6 +4,7 @@ import { Preloader } from 'react-materialize'
 import Navbar from 'components/Navbar/Navbar'
 import MainForm from 'components/MainForm'
 import VisiteController from 'components/Visite/VisiteController'
+import MapContainer from 'components/GMaps/GMaps'
 
 class App extends Component {
     constructor(props) {
@@ -39,7 +40,7 @@ class App extends Component {
                         <div className="container">
                             {cities ? <MainForm cities={cities} /> : <Preloader active flashing={false} size="big" />}
                             <VisiteController cities={cities} />
-                            {/* <MapContainer /> */}
+                            { <MapContainer /> }
                         </div>
                     </Route>
                 </Switch>

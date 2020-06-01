@@ -31,7 +31,8 @@ export class MapContainer extends Component {
  }
 
  fetchRoads = () => {
-     fetch(proxyurl + `https://maps.googleapis.com/maps/api/directions/json?origin=48.87396223516477,2.295111042446485&destination=48.87198647229124,2.3316210022659334&key=AIzaSyC2EbNhEBrOMzZFk4vbwpm6h-GTrfXTwH0`)
+     /*fetch(proxyurl + `https://maps.googleapis.com/maps/api/directions/json?origin=48.87396223516477,2.295111042446485&destination=48.87198647229124,2.3316210022659334&key=AIzaSyC2EbNhEBrOMzZFk4vbwpm6h-GTrfXTwH0`)*/
+     fetch(proxyurl + `https://maps.googleapis.com/maps/api/directions/json?origin=48.87396223516477,2.295111042446485&destination=48.87396223516477,2.295111042446485&waypoints=via:48.86612446131622,2.312576404506803|via:48.87198647229124,2.3316210022659334&key=AIzaSyC2EbNhEBrOMzZFk4vbwpm6h-GTrfXTwH0`)
          .then(response =>  response.json())
          .then((result) => {
                  this.setState({ roads: result["routes"][0]["legs"][0]});
