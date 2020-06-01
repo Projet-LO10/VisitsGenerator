@@ -11,6 +11,7 @@ class App extends Component {
         super(props)
         this.state = {
             cities: undefined,
+            message: null,
         }
     }
 
@@ -22,6 +23,10 @@ class App extends Component {
         fetch(`https://geo.api.gouv.fr/communes?fields=nom,centre,codesPostaux&format=json&geometry=centre`)
             .then((data) => data.json())
             .then((data) => this.setState({ cities: data }))
+    }
+
+    callbackFunction = (childData) => {
+      this.setState({message: childData})
     }
 
     render() {
@@ -38,9 +43,9 @@ class App extends Component {
                     {/* L'attribut 'path' représente l'URI concernée */}
                     <Route path="/">
                         <div className="container">
-                            {cities ? <MainForm cities={cities} /> : <Preloader active flashing={false} size="big" />}
+                            {cities ? <MainForm cities={cities} parentCallback={this.callbackFunction} /> : <Preloader active flashing={false} size="big" />}
                             <VisiteController cities={cities} />
-                            { <MapContainer /> }
+                            { <MapContainer car={this.state.message ? this.state.message.carProperty : null}/> }
                         </div>
                     </Route>
                 </Switch>

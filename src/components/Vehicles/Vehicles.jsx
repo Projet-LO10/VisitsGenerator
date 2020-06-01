@@ -10,14 +10,20 @@ class Vehicles extends Component {
         post: {},
     }
 
+    sendData = () => {
+      this.props.parentCallback(this.state.post);
+    }
+
     /*Permet de gérer le component*/
     componentDidMount() {
         this.fetchVehicles()
+
     }
 
     componentDidUpdate(prevProps) {
         if (prevProps.car !== this.props.car) {
-          this.fetchVehicles()
+          this.fetchVehicles();
+          this.sendData();
         }
     }
 
@@ -40,10 +46,10 @@ class Vehicles extends Component {
                   <div className="card blue-grey darken-1">
                       <div className="card-content orange-text">
                           <span className="card-title">Informations générales</span>
-                          <p>{this.state.post.marque ? <h6>Marque : {this.state.post.marque}</h6> : <h6>Marque : Chargement...</h6>}</p>
-                          <p>{this.state.post.designation_commerciale ? <h6>Modèle : {this.state.post.designation_commerciale}</h6> : <h6>Marque : Chargement...</h6>}</p>
-                          <p>{this.state.post.carburant ? <h6>Carburant : {this.state.post.carburant}</h6> : <h6>Carburant : Chargement...</h6>}</p>
-                          <p>{this.state.post.co2_g_km ? <h6>CO2 rejeté : {this.state.post.co2_g_km} g/km</h6> : <h6>CO2 rejeté : Chargement...</h6>}</p>
+                          {this.state.post.marque ? <h6>Marque : {this.state.post.marque}</h6> : <h6>Marque : Chargement...</h6>}
+                          {this.state.post.designation_commerciale ? <h6>Modèle : {this.state.post.designation_commerciale}</h6> : <h6>Marque : Chargement...</h6>}
+                          {this.state.post.carburant ? <h6>Carburant : {this.state.post.carburant}</h6> : <h6>Carburant : Chargement...</h6>}
+                          {this.state.post.co2_g_km ? <h6>CO2 rejeté : {this.state.post.co2_g_km} g/km</h6> : <h6>CO2 rejeté : Chargement...</h6>}
                       </div>
                   </div>
               </div>

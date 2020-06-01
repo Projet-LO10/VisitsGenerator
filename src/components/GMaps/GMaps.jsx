@@ -64,7 +64,6 @@ onClose = props => {
 
 render() {
   if(this.state.roads["distance"] != undefined){
-
   const itineraire = this.state.roads["steps"];
     return (
       <div className="row" style={{height: "1000px",margin: "auto"}}>
@@ -137,6 +136,10 @@ render() {
           </div>
         </InfoWindow>
       </Map>
+      <Card className="center blue-grey darken-1 orange-text">
+          <span className="card-title">Informations sur le trajet</span>
+          {this.state.roads["distance"] && this.props.car ? <h6>Economie carbone : {this.state.roads["distance"]["value"]/1000*this.props.car.co2_g_km} g</h6> : <h6>Economie carbone : Chargement...</h6>}
+      </Card>
       </div>
     );
   }else{
