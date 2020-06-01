@@ -96,6 +96,7 @@ render() {
               <h6>{temp2}</h6>
             )
           })}
+          <h6>Retour au point de départ</h6>
       </Card>
       <Map
         google={this.props.google}
