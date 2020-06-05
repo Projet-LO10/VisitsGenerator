@@ -1,6 +1,9 @@
 const app = require('express')()
 const fetch = require('node-fetch')
 const moment = require('moment')
+const contentTypeParser = require('content-type')
+const js2xmlparser = require('js2xmlparser')
+const yaml = require('yaml')
 const fetchAll = require('./fetchAll.js')
 const PORT = (process.argv[3] && typeof process.argv[3] === 'number') || 8080
 
@@ -45,22 +48,62 @@ const verifyParametersValidity = (cities) => (req, res, next) => {
 }
 
 const fetchResults = (req, res, next) => {
-    // Récupération de la constante city
+    // Récupération de la constante city et date
     const { city, date } = res.locals
     // Récupération de la latitude et de la longitude
     const lat = city.centre.coordinates[1]
     const lon = city.centre.coordinates[0]
 
     fetchAll(city.nom, lat, lon, date).then((data) => {
-        // Indique que le résultat de la requête sera au format JSON
-        res.setHeader('Content-Type', 'application/json')
-        // Retourne le résultat
-        res.send(data)
+        // Le résultat du fetch est sauvegardé dans la variable "locals" pour qu'il soit utilisé dans d'autres middlewares
+        res.locals.result = data
+        // Appel au prochain middleware
+        next()
     })
 }
 
+const handleContentType = (req, res, next) => {
+    // Récupération de la variable locals.result
+    let { result } = res.locals
+    // On récupère le header Content-Type de la requête
+    const contentType = req.get('Content-Type')
+
+    console.log(contentType)
+    // Si le header est renseigné
+    if (contentType) {
+        switch (contentTypeParser.parse(contentType).type) {
+            case 'application/json':
+                // Indique que le résultat de la requête sera au format JSON
+                res.setHeader('Content-Type', 'application/json; charset=utf-8')
+                break
+            case 'application/xml':
+                // Indique que le résultat de la requête sera au format XML
+                res.setHeader('Content-Type', 'application/xml; charset=utf-8')
+                // Conversion du json en xml
+                result = js2xmlparser.parse('visite', result)
+                break
+            case 'application/x-yaml':
+                // Indique que le résultat de la requête sera au format yaml
+                res.setHeader('Content-Type', 'application/x-yaml')
+                // Conversion du json en yaml
+                result = yaml.stringify(result)
+                break
+            default:
+                // Indique que le résultat de la requête sera au format JSON
+                res.setHeader('Content-Type', 'application/json; charset=utf-8')
+                break
+        }
+    } else {
+        // Indique que le résultat de la requête sera au format JSON
+        res.setHeader('Content-Type', 'application/json; charset=utf-8')
+    }
+
+    // Retourne le résultat
+    res.send(result)
+}
+
 const startServer = (cities) => {
-    app.get('/api/test', verifyParametersPresence, verifyParametersValidity(cities), fetchResults)
+    app.get('/api/test', verifyParametersPresence, verifyParametersValidity(cities), fetchResults, handleContentType)
 
     app.listen(PORT, () => {
         console.log(`Le serveur est démarré sur le port ${PORT}`)

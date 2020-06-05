@@ -10,8 +10,11 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
+        "content-type": "^1.0.4",
         "express": "^4.17.1",
+        "js2xmlparser": "^4.0.1",
         "moment": "^2.26.0",
-        "node-fetch": "^2.6.0"
+        "node-fetch": "^2.6.0",
+        "yaml": "^1.10.0"
     }
 }
