@@ -10,4 +10,6 @@ import 'materialize-css/dist/js/materialize.min.js'
 //.then(response => response.json())
 //.then(json => console.log(json))
 
+// fetch('/api/test?ville=Montbard&date=07-Jun-2020').then(x => x.json()).then(console.log)
+
 ReactDOM.render(<App />, document.getElementById('root'))
