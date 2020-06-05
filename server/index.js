@@ -103,6 +103,9 @@ const handleContentType = (req, res, next) => {
 }
 
 const startServer = (cities) => {
+    // Suppression du header "x-powered-by" pour des raisons de sécurité
+    app.disable('x-powered-by')
+
     app.get('/api/test', verifyParametersPresence, verifyParametersValidity(cities), fetchResults, handleContentType)
 
     app.listen(PORT, () => {
