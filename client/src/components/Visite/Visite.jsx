@@ -4,16 +4,11 @@ import { Preloader } from 'react-materialize'
 import Weather from 'components/Weather/Weather'
 import Museums from 'components/Museums/Museums'
 import HistoricalMonuments from 'components/HistoricalMonuments/HistoricalMonuments'
-import { fetchAll } from 'model/fetch'
 
 class Visite extends Component {
     constructor(props) {
         super(props)
-        this.state = {
-            data: {
-                fetching: true,
-            },
-        }
+        this.state = {}
     }
 
     componentDidMount() {
@@ -21,32 +16,34 @@ class Visite extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        const { ville, lat, lon } = this.props
-        const { prevVille, prevLat, prevLon } = prevProps
-        if (ville !== prevVille || lat !== prevLat || lon !== prevLon) {
+        const { ville, date } = this.props
+        if (ville !== prevProps.ville || date !== prevProps.date) {
             this.loadData()
         }
     }
 
     /**
-     * Fetch toutes les API puis change l'état du composant quand la réponse est arrivée
+     * Fetch l'API proposée puis change l'état du composant quand la réponse est arrivée
      * Attend que toutes les réponses soient arrivées pour rentrer dans le then
      */
     loadData = () => {
-        const { ville, lat, lon } = this.props
-        fetchAll(ville, lat, lon).then((result) => {
-            // L'objet "data" de l'état est rempli par l'objet récupéré par le fetch
-            this.setState({ data: result })
-        })
+        const { ville, date } = this.props
+        console.log('Data is fetching')
+        fetch(`/api/test?ville=${ville}&date=${date}`)
+            .then((result) => result.json())
+            .then((result) => {
+                // L'objet "data" de l'état est rempli par l'objet récupéré par le fetch
+                this.setState({ data: result })
+            })
     }
 
     render() {
         // Si le composant charge
-        if (this.state.data.fetching) {
+        if (!this.state.data) {
             return <Preloader active flashing={false} size="big" />
         }
 
-        const { ville, lat, lon, date } = this.props
+        const { ville, date } = this.props
         const { weather, museums, monuments } = this.state.data
         return (
             <div>
@@ -61,8 +58,6 @@ class Visite extends Component {
 
 Visite.propTypes = {
     ville: PropTypes.string.isRequired,
-    lat: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-    lon: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     date: PropTypes.string.isRequired,
 }
 

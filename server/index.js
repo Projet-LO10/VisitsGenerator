@@ -68,7 +68,6 @@ const handleContentType = (req, res, next) => {
     // On récupère le header Content-Type de la requête
     const contentType = req.get('Content-Type')
 
-    console.log(contentType)
     // Si le header est renseigné
     if (contentType) {
         switch (contentTypeParser.parse(contentType).type) {

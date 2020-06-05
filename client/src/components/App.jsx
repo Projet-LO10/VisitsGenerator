@@ -44,8 +44,8 @@ class App extends Component {
                     <Route path="/">
                         <div className="container">
                             {cities ? <MainForm cities={cities} parentCallback={this.callbackFunction} /> : <Preloader active flashing={false} size="big" />}
-                            <VisiteController cities={cities} />
-                            { <MapContainer car={this.state.message ? this.state.message.carProperty : null}/> }
+                            <VisiteController />
+                            {/* { <MapContainer car={this.state.message ? this.state.message.carProperty : null}/> } */}
                         </div>
                     </Route>
                 </Switch>

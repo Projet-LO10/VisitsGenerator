@@ -46,23 +46,16 @@ class Weather extends Component {
     // }
 
     render() {
-        const { dataSource } = this.props
-        console.log(dataSource)
-        const date = moment(this.props.date, 'DD-MMM-YYYY').format('YYYY-MM-DD')
-        const data = dataSource.data.find((entry) => entry.valid_date === date)
-
-        // if (!this.isDateValid(date)) {
-        //     return <CardPanel className="red accent-1">{date} n'est pas une date valide</CardPanel>
-        // }
+        const { dataSource, date, ville } = this.props
 
         return (
             <div className="App">
-                <h3>Voici les données météo à {this.props.ville}</h3>
+                <h3>Voici les données météo à {ville}</h3>
 
                 {/*CARD Générale ------------------------------------------*/}
                 <Card className="center blue-grey darken-1 orange-text">
                     <span className="card-title">Informations générales</span>
-                    <h6>Ville : {dataSource.city_name}</h6>
+                    <h6>Ville : {ville}</h6>
                     <h6>Timezone : {dataSource.timezone}</h6>
                     <h6>Pays : {dataSource.country_code}</h6>
                 </Card>
@@ -70,11 +63,11 @@ class Weather extends Component {
                 {/*CARD pour le jour demandé ------------------------------------------*/}
                 <Card className="center blue-grey darken-1 orange-text">
                     <div className="card-image" style={{ width: '10%', margin: 'auto' }}>
-                        <img src={'src/images/weather/' + data['weather']['icon'] + '.png'}></img>
+                        <img src={'src/images/weather/' + dataSource['weather']['icon'] + '.png'}></img>
                     </div>
                     <span className="card-title">Météo le {date}</span>
-                    <h6>Température : {data['temp']} degrés</h6>
-                    <h6>Description : {data['weather']['description']}</h6>
+                    <h6>Température : {dataSource['temp']} degrés</h6>
+                    <h6>Description : {dataSource['weather']['description']}</h6>
                 </Card>
 
                 {/*CARD Générale ------------------------------------------*/}

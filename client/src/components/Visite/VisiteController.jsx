@@ -18,28 +18,7 @@ class VisiteController extends Component {
         const URIContainsMandatoryParams = mandatoryParams.every((param) => typeof query[param] !== 'undefined')
 
         if (URIContainsMandatoryParams) {
-            // Equivaut à const cities = this.props.cities
-            const { cities } = this.props
-            // Si les villes sont chargées
-            if (cities) {
-                // S'il existe un paramètre nom dans l'URI et qu'il correspond à une ville connue
-                // la variable city prend l'objet correspondant avec son nom, ses coordonées, etc.
-                // sinon la variable vaut undefined
-                const city = cities.find((city) => city.nom === query.ville)
-                // Vaut vrai si la date dans l'URI a le pattern passé en paramètre
-                const isValidDate =
-                    moment(query.date, 'DD-MMM-YYYY', true).isValid() &&
-                    moment(query.date, 'DD-MMM-YYYY').isBetween(moment().subtract(1, 'days'), moment().add(15, 'days'))
-                // Si la ville est trouvée et que la date est valide
-                return city && isValidDate ? (
-                    <Visite ville={city.nom} lat={city.centre.coordinates[1]} lon={city.centre.coordinates[0]} date={query.date} />
-                ) : (
-                    <CardPanel className="red accent-1">Oups... something went wrong !</CardPanel>
-                )
-            } else {
-                // Si les villes nes sont pas encore chargées on affiche un spinner
-                return <Preloader active flashing={false} size="big" />
-            }
+            return <Visite ville={query.ville} date={query.date} />
         } else {
             // null indique qu'aucun composant React ne sera rendu
             return null

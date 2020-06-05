@@ -17,11 +17,15 @@ const fetchMonuments = (ville) => {
 }
 
 const fetchWeather = (lat, lon, date) => {
-    return fetch(`https://api.weatherbit.io/v2.0/forecast/daily?lat=${lat}&lon=${lon}&country=FR&lang=fr&key=e4669577bb74436e9dd4bba4fd820014`)
+    return fetch(`https://api.weatherbit.io/v2.0/forecast/daily?lat=${lat}&lon=${lon}&country=FR&lang=fr&key=83f8cad20c1b48b6b4060efa4ee22176`)
         .then((x) => x.json())
         .then((dataSource) => {
+            const params = ['city_name', 'lon', 'lat', 'timezone', 'country_code', 'state_code']
             const formatedDate = moment(date, 'DD-MMM-YYYY').format('YYYY-MM-DD')
-            const weatherOfDate = dataSource.data.find((entry) => entry.valid_date === formatedDate)
+            let weatherOfDate = dataSource.data.find((entry) => entry.valid_date === formatedDate)
+            params.forEach((elt) => {
+                weatherOfDate[elt] = dataSource[elt]
+            })
             return weatherOfDate
         })
 }
