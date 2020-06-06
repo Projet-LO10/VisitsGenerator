@@ -63,7 +63,8 @@ class Weather extends Component {
                 {/*CARD pour le jour demandé ------------------------------------------*/}
                 <Card className="center blue-grey darken-1 orange-text">
                     <div className="card-image" style={{ width: '10%', margin: 'auto' }}>
-                        <img src={'src/images/weather/' + dataSource['weather']['icon'] + '.png'}></img>
+                        {/* <img src={'src/images/weather/' + dataSource['weather']['icon'] + '.png'}></img> */}
+                        <img src={`/images/weather/${dataSource['weather']['icon']}.png`} />
                     </div>
                     <span className="card-title">Météo le {date}</span>
                     <h6>Température : {dataSource['temp']} degrés</h6>

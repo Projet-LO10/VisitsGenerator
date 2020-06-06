@@ -6,7 +6,8 @@
   "scripts": {
     "start:server": "npm start --prefix ./server -- --port 8080",
     "start:client": "npm start --prefix ./client",
-    "start": "npm-run-all --parallel start:*"
+    "start": "npm-run-all --parallel start:*",
+    "build": "npm run build --prefix ./client"
   },
   "repository": {
     "type": "git",

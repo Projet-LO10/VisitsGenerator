@@ -1,9 +1,13 @@
-const app = require('express')()
+const express = require('express')
+const app = express()
 const moment = require('moment')
 const contentTypeParser = require('content-type')
 const js2xmlparser = require('js2xmlparser')
 const yaml = require('yaml')
+const path = require('path')
 const fetchAll = require('./fetchAll')
+const DIST = path.join(__dirname, '..', 'client', 'dist')
+const HTML = path.join(DIST, 'index.html')
 
 /**
  * Middleware qui vérifie que les paramètres obligatoires sont bien présents dans la requête
@@ -75,37 +79,29 @@ const fetchResults = (req, res, next) => {
 const handleAccept = (req, res, next) => {
     // Récupération de la variable locals.result
     let { result } = res.locals
-    // On récupère le header Content-Type de la requête
-    const accept = req.get('Accept')
-
-    // Si le header est renseigné
-    if (accept) {
-        switch (contentTypeParser.parse(accept).type) {
-            case 'application/json':
-                // Indique que le résultat de la requête sera au format JSON
-                res.setHeader('Content-Type', 'application/json; charset=utf-8')
-                break
-            case 'application/xml':
-                // Indique que le résultat de la requête sera au format XML
-                res.setHeader('Content-Type', 'application/xml; charset=utf-8')
-                // Conversion du json en xml
-                result = js2xmlparser.parse('visite', result)
-                break
-            case 'application/x-yaml':
-                // Indique que le résultat de la requête sera au format yaml
-                res.setHeader('Content-Type', 'application/x-yaml')
-                // Conversion du json en yaml
-                result = yaml.stringify(result)
-                break
-            default:
-                // Indique que le résultat de la requête sera au format JSON
-                res.setHeader('Content-Type', 'application/json; charset=utf-8')
-                break
-        }
-    } else {
-        // Indique que le résultat de la requête sera au format JSON
-        res.setHeader('Content-Type', 'application/json; charset=utf-8')
-    }
+    // En fonction du header 'Accept'
+    res.format({
+        'application/json': () => {
+            // Indique que le résultat de la requête sera au format JSON
+            res.setHeader('Content-Type', 'application/json; charset=utf-8')
+        },
+        'application/xml': () => {
+            // Indique que le résultat de la requête sera au format XML
+            res.setHeader('Content-Type', 'application/xml; charset=utf-8')
+            // Conversion du json en xml
+            result = js2xmlparser.parse('visite', result)
+        },
+        'application/x-yaml': () => {
+            // Indique que le résultat de la requête sera au format yaml
+            res.setHeader('Content-Type', 'application/x-yaml')
+            // Conversion du json en yaml
+            result = yaml.stringify(result)
+        },
+        default: () => {
+            // Indique que le résultat de la requête sera au format JSON
+            res.setHeader('Content-Type', 'application/json; charset=utf-8')
+        },
+    })
 
     // Retourne le résultat
     res.send(result)
@@ -119,7 +115,11 @@ const handleAccept = (req, res, next) => {
 const startServer = (port, cities) => {
     // Suppression du header "x-powered-by" pour des raisons de sécurité
     app.disable('x-powered-by')
+    app.use(express.static(DIST))
     app.get('/api/test', verifyParametersPresence, verifyParametersValidity(cities), fetchResults, handleAccept)
+    app.get('*', (req, res) => {
+        res.sendFile(HTML)
+    })
     app.listen(port, () => {
         console.log(`[Serveur Express] Le serveur est démarré sur le port ${port}`)
     })

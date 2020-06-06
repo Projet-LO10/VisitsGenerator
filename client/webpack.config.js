@@ -1,5 +1,6 @@
 const HtmlWebPackPlugin = require('html-webpack-plugin')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
+const CopyPlugin = require('copy-webpack-plugin')
 
 module.exports = {
     entry: {
@@ -8,8 +9,10 @@ module.exports = {
     output: {
         filename: '[name].js',
         path: `${__dirname}/dist`,
+        publicPath: '/',
     },
     devServer: {
+        contentBase: `${__dirname}/src`,
         historyApiFallback: true,
         port: 3000,
         proxy: {
@@ -41,6 +44,9 @@ module.exports = {
             },
         ],
     },
+    performance: {
+        hints: false,
+    },
     resolve: {
         extensions: ['.js', '.jsx'],
         alias: {
@@ -49,12 +55,16 @@ module.exports = {
         },
     },
     optimization: {
-        minimizer: [new UglifyJsPlugin()],
+        minimize: true,
+        minimizer: [new TerserPlugin()],
     },
     plugins: [
         new HtmlWebPackPlugin({
             template: './src/index.html',
             filename: './index.html',
+        }),
+        new CopyPlugin({
+            patterns: [{ from: './src/images/', to: './images' }],
         }),
     ],
 }
