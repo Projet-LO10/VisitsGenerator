@@ -10,7 +10,7 @@ Lancer la commande `npm start` pour démarrer le serveur de développement (Reac
 
 Lancer la commande `npm run start:client` pour démarrer le serveur de développement (React) seulement.
 
-Lancer la commande `npm run start:server [--port <port>]` pour démarrer le serveur Express.
+Lancer la commande `npm run start:server [--port <port>] [--static <dist/folder/absolute/path>]` pour démarrer le serveur Express.
 
 ## En production (TODO)
 

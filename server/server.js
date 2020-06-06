@@ -1,13 +1,10 @@
 const express = require('express')
 const app = express()
 const moment = require('moment')
-const contentTypeParser = require('content-type')
 const js2xmlparser = require('js2xmlparser')
 const yaml = require('yaml')
 const path = require('path')
 const fetchAll = require('./fetchAll')
-const DIST = path.join(__dirname, '..', 'client', 'dist')
-const HTML = path.join(DIST, 'index.html')
 
 /**
  * Middleware qui vérifie que les paramètres obligatoires sont bien présents dans la requête
@@ -112,13 +109,13 @@ const handleAccept = (req, res, next) => {
  * @param {*} port port du serveur
  * @param {*} cities résultat de l'API communes avec toutes les villes gérées par le système
  */
-const startServer = (port, cities) => {
+const startServer = (port, dist, cities) => {
     // Suppression du header "x-powered-by" pour des raisons de sécurité
     app.disable('x-powered-by')
-    app.use(express.static(DIST))
+    app.use(express.static(dist))
     app.get('/api/test', verifyParametersPresence, verifyParametersValidity(cities), fetchResults, handleAccept)
     app.get('*', (req, res) => {
-        res.sendFile(HTML)
+        res.sendFile(path.join(dist, 'index.html'))
     })
     app.listen(port, () => {
         console.log(`[Serveur Express] Le serveur est démarré sur le port ${port}`)
