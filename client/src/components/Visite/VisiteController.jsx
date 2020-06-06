@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
-import { CardPanel, Preloader } from 'react-materialize'
 import queryString from 'query-string'
-import moment from 'moment'
 import Visite from 'components/Visite/Visite'
 
 class VisiteController extends Component {
@@ -18,7 +15,7 @@ class VisiteController extends Component {
         const URIContainsMandatoryParams = mandatoryParams.every((param) => typeof query[param] !== 'undefined')
 
         if (URIContainsMandatoryParams) {
-            return <Visite ville={query.ville} date={query.date} />
+            return <Visite query={query} />
         } else {
             // null indique qu'aucun composant React ne sera rendu
             return null

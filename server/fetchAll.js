@@ -62,7 +62,7 @@ const fetchVehicle = (query) => {
  */
 const handleOptionalParameters = (settings, promises) => {
     if (settings.vehicule) {
-        promises.vehicule = fetchVehicle(settings.vehicule)
+        promises.vehicle = fetchVehicle(settings.vehicule)
     }
 }
 

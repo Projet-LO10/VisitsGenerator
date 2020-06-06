@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Preloader } from 'react-materialize'
+import queryString from 'query-string'
 import Weather from 'components/Weather/Weather'
 import Museums from 'components/Museums/Museums'
 import HistoricalMonuments from 'components/HistoricalMonuments/HistoricalMonuments'
@@ -16,8 +17,8 @@ class Visite extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        const { ville, date } = this.props
-        if (ville !== prevProps.ville || date !== prevProps.date) {
+        const { ville, date, vehicule } = this.props.query
+        if (ville !== prevProps.query.ville || date !== prevProps.query.date || vehicule !== prevProps.query.vehicule) {
             this.loadData()
         }
     }
@@ -26,10 +27,8 @@ class Visite extends Component {
      * Fetch l'API proposée puis change l'état du composant quand la réponse est arrivée
      * Attend que toutes les réponses soient arrivées pour rentrer dans le then
      */
-    loadData = () => {
-        const { ville, date } = this.props
-        console.log('Data is fetching')
-        fetch(`/api/test?ville=${ville}&date=${date}`)
+    loadData = () => {        
+        fetch(`/api/visite?${queryString.stringify(this.props.query)}`)
             .then((result) => result.json())
             .then((result) => {
                 // L'objet "data" de l'état est rempli par l'objet récupéré par le fetch
@@ -43,8 +42,11 @@ class Visite extends Component {
             return <Preloader active flashing={false} size="big" />
         }
 
-        const { ville, date } = this.props
-        const { weather, museums, monuments } = this.state.data
+        // Ces constantes reçoivent les paramètres présents dans la requête
+        const { ville, date } = this.props.query
+        // Ces constantes sont les données qui ont été fetch par l'API
+        // Attention, certaines peuvent être nulles (ex: vehicle)
+        const { weather, museums, monuments, vehicle } = this.state.data
         return (
             <div>
                 <Weather dataSource={weather} ville={ville} date={date} />
@@ -57,8 +59,7 @@ class Visite extends Component {
 }
 
 Visite.propTypes = {
-    ville: PropTypes.string.isRequired,
-    date: PropTypes.string.isRequired,
+    query: PropTypes.object.isRequired,
 }
 
 export default Visite

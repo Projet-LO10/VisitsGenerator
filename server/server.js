@@ -117,7 +117,7 @@ const startServer = (port, dist, cities) => {
     // Suppression du header "x-powered-by" pour des raisons de sécurité
     app.disable('x-powered-by')
     app.use(express.static(dist))
-    app.get('/api/test', verifyParametersPresence, verifyParametersValidity(cities), fetchResults, handleAccept)
+    app.get('/api/visite', verifyParametersPresence, verifyParametersValidity(cities), fetchResults, handleAccept)
     app.get('*', (req, res) => {
         res.sendFile(path.join(dist, 'index.html'))
     })
