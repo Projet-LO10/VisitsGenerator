@@ -4,12 +4,13 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "start": "node ./index.js $*"
+        "start": "node ./index.js"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "dependencies": {
+        "commander": "^5.1.0",
         "content-type": "^1.0.4",
         "express": "^4.17.1",
         "js2xmlparser": "^4.0.1",
