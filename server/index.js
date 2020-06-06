@@ -62,15 +62,15 @@ const fetchResults = (req, res, next) => {
     })
 }
 
-const handleContentType = (req, res, next) => {
+const handleAccept = (req, res, next) => {
     // Récupération de la variable locals.result
     let { result } = res.locals
     // On récupère le header Content-Type de la requête
-    const contentType = req.get('Content-Type')
+    const accept = req.get('Accept')
 
     // Si le header est renseigné
-    if (contentType) {
-        switch (contentTypeParser.parse(contentType).type) {
+    if (accept) {
+        switch (contentTypeParser.parse(accept).type) {
             case 'application/json':
                 // Indique que le résultat de la requête sera au format JSON
                 res.setHeader('Content-Type', 'application/json; charset=utf-8')
@@ -105,7 +105,7 @@ const startServer = (cities) => {
     // Suppression du header "x-powered-by" pour des raisons de sécurité
     app.disable('x-powered-by')
 
-    app.get('/api/test', verifyParametersPresence, verifyParametersValidity(cities), fetchResults, handleContentType)
+    app.get('/api/test', verifyParametersPresence, verifyParametersValidity(cities), fetchResults, handleAccept)
 
     app.listen(PORT, () => {
         console.log(`Le serveur est démarré sur le port ${PORT}`)
