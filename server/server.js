@@ -5,6 +5,9 @@ const js2xmlparser = require('js2xmlparser')
 const yaml = require('yaml')
 const fetchAll = require('./fetchAll')
 
+/**
+ * Middleware qui vérifie que les paramètres obligatoires sont bien présents dans la requête
+ */
 const verifyParametersPresence = (req, res, next) => {
     // Tableau contenant les champs obligatoires dans l'URI
     const mandatoryParams = ['ville', 'date']
@@ -23,6 +26,9 @@ const verifyParametersPresence = (req, res, next) => {
     }
 }
 
+/**
+ * Middleware qui vérifie que les paramètres ont un format correct et qu'ils sont valides
+ */
 const verifyParametersValidity = (cities) => (req, res, next) => {
     const { ville, date } = req.query
     // S'il existe un paramètre nom dans l'URI et qu'il correspond à une ville connue
@@ -45,6 +51,9 @@ const verifyParametersValidity = (cities) => (req, res, next) => {
     }
 }
 
+/**
+ * Middleware qui fetch les données sur les API
+ */
 const fetchResults = (req, res, next) => {
     // Récupération de la constante city et date
     const { city, date } = res.locals
@@ -60,6 +69,9 @@ const fetchResults = (req, res, next) => {
     })
 }
 
+/**
+ * Middleware qui traduit le résultat des API dans un format demandé par le Header "Accept" et qui inscrit le header "Content-Type" en header de réponse
+ */
 const handleAccept = (req, res, next) => {
     // Récupération de la variable locals.result
     let { result } = res.locals
@@ -99,6 +111,11 @@ const handleAccept = (req, res, next) => {
     res.send(result)
 }
 
+/**
+ * Démarre le serveur Express
+ * @param {*} port port du serveur
+ * @param {*} cities résultat de l'API communes avec toutes les villes gérées par le système
+ */
 const startServer = (port, cities) => {
     // Suppression du header "x-powered-by" pour des raisons de sécurité
     app.disable('x-powered-by')
