@@ -1,7 +1,7 @@
 const fetch = require('node-fetch')
 const moment = require('moment')
 
-const providedInformation = ['weather', 'museums', 'monuments']
+const mandatoryInformation = ['weather', 'museums', 'monuments']
 
 const fetchMuseums = (ville) => {
     return fetch(
@@ -30,6 +30,14 @@ const fetchWeather = (lat, lon, date) => {
         })
 }
 
+const fetchVehicle = (query) => {
+    return fetch(
+        `https://public.opendatasoft.com/api/records/1.0/search/?q=${query}&dataset=vehicules-commercialises&q=&sort=puissance_maximale&facet=marque&facet=modele_utac&facet=carburant&facet=hybride&facet=puissance_administrative&facet=boite_de_vitesse&facet=annee&facet=carrosserie&facet=gamme`
+    )
+        .then((x) => x.json())
+        .then((dataSource) => dataSource.records[0].fields)
+}
+
 /**
  * Retourne une promesse :
  * resolve (then) quand tous les fetch ont été accomplis. Le premier paramètre du then est un objet content les résultats des différents fetch @see keys
@@ -38,15 +46,20 @@ const fetchWeather = (lat, lon, date) => {
  * @param {*} lat
  * @param {*} lon
  */
-const fetchAll = (ville, lat, lon, date) => {
+const fetchAll = (ville, lat, lon, date, vehicle = undefined) => {
     // Les clés présentes dans l'objet présent dans le then
-    const promises = [fetchWeather(lat, lon, date), fetchMuseums(ville), fetchMonuments(ville)]
+    let promises = [fetchWeather(lat, lon, date), fetchMuseums(ville), fetchMonuments(ville)]
+    let information = mandatoryInformation
+    if (vehicle) {
+        promises.push(fetchVehicle(vehicle))
+        information.push('vehicle')
+    }
     return Promise.all(promises).then(
         (array) =>
             new Promise((resolve, reject) => {
-                array.length !== promises.length && providedInformation.length != promises.length && reject('Nombre de promesses incorrect')
+                array.length !== promises.length && information.length != promises.length && reject('Nombre de promesses incorrect')
                 resolve(
-                    providedInformation.reduce((acc, curr, i) => {
+                    information.reduce((acc, curr, i) => {
                         acc[curr] = array[i]
                         return acc
                     }, {})

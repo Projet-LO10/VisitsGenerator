@@ -31,7 +31,7 @@ const verifyParametersPresence = (req, res, next) => {
  * Middleware qui vérifie que les paramètres ont un format correct et qu'ils sont valides
  */
 const verifyParametersValidity = (cities) => (req, res, next) => {
-    const { ville, date } = req.query
+    const { ville, date, vehicule } = req.query
     // S'il existe un paramètre nom dans l'URI et qu'il correspond à une ville connue
     // la variable city prend l'objet correspondant avec son nom, ses coordonées, etc.
     // sinon la variable vaut undefined
@@ -44,6 +44,7 @@ const verifyParametersValidity = (cities) => (req, res, next) => {
         // Les constantes sont sauvegardées dans la variable "locals" pour qu'elles soient utilisées dans d'autres middlewares
         res.locals.city = city
         res.locals.date = date
+        res.locals.vehicule = vehicule        
         // Appel au prochain middleware
         next()
     } else {
@@ -57,12 +58,12 @@ const verifyParametersValidity = (cities) => (req, res, next) => {
  */
 const fetchResults = (req, res, next) => {
     // Récupération de la constante city et date
-    const { city, date } = res.locals
+    const { city, date, vehicule } = res.locals
     // Récupération de la latitude et de la longitude
     const lat = city.centre.coordinates[1]
     const lon = city.centre.coordinates[0]
 
-    fetchAll(city.nom, lat, lon, date).then((data) => {
+    fetchAll(city.nom, lat, lon, date, vehicule).then((data) => {
         // Le résultat du fetch est sauvegardé dans la variable "locals" pour qu'il soit utilisé dans d'autres middlewares
         res.locals.result = data
         // Appel au prochain middleware
