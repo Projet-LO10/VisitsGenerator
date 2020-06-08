@@ -2,7 +2,7 @@
 
 ## Installation des dépendances.
 
-Lancer la commande `npm install` pour installer les dépendances nécessaires.
+Lancer la commande `npm install` pour installer les dépendances nécessaires. Cette commande installe également les dépendances des dossiers __client__ et __serveur__.
 
 ## En développement
 
