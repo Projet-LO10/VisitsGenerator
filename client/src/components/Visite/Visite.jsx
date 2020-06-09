@@ -5,6 +5,7 @@ import queryString from 'query-string'
 import Weather from 'components/Weather/Weather'
 import Museums from 'components/Museums/Museums'
 import HistoricalMonuments from 'components/HistoricalMonuments/HistoricalMonuments'
+import GMaps from 'components/GMaps/GMaps'
 
 class Visite extends Component {
     constructor(props) {
@@ -27,7 +28,7 @@ class Visite extends Component {
      * Fetch l'API proposée puis change l'état du composant quand la réponse est arrivée
      * Attend que toutes les réponses soient arrivées pour rentrer dans le then
      */
-    loadData = () => {        
+    loadData = () => {
         fetch(`/api/visite?${queryString.stringify(this.props.query)}`)
             .then((result) => result.json())
             .then((result) => {
@@ -52,6 +53,7 @@ class Visite extends Component {
                 <Weather dataSource={weather} ville={ville} date={date} />
                 <Museums dataSource={museums} ville={ville} />
                 <HistoricalMonuments dataSource={monuments} ville={ville} />
+                {/*<GMaps dataSource={museums} ville={ville} />*/}
                 {/* Ajouter les composants React ici */}
             </div>
         )

@@ -23,6 +23,8 @@ export class MapContainer extends Component {
         selectedPlace: {}, //Shows the infoWindow to the selected place upon a marker
         roads: {},
         pathCoordinates: [],
+        noms: [],
+        coordinates: [],
     }
 
     /*Permet de gérer le component*/
@@ -31,10 +33,33 @@ export class MapContainer extends Component {
     }
 
     fetchRoads = () => {
-        /*fetch(proxyurl + `https://maps.googleapis.com/maps/api/directions/json?origin=48.87396223516477,2.295111042446485&destination=48.87198647229124,2.3316210022659334&key=AIzaSyC2EbNhEBrOMzZFk4vbwpm6h-GTrfXTwH0`)*/
+        const museums = this.props.dataSource.records.filter((museum) => museum.hasOwnProperty('geometry'))
+        let coordinates = [];
+        let noms = [];
+        museums.map((museum) => {
+            // Certains musées sont dôtés de coordonnées, d'autres noms:
+            // Ceux-ci ont un objet geometry
+            // avec un champ coordinates [longitude, latitude]
+            noms.push(museum['fields']['nom_du_musee']);
+            coordinates.push(museum.geometry['coordinates']);
+        });
+        this.setState({noms: noms});
+        this.setState({coordinates: coordinates});
+        let origin = '';
+        let path = '';
+        coordinates.map((coordinate, index) => {
+          if(index == 1){
+            origin = coordinate[1] + ',' + coordinate[0];
+          }
+          path += "via:" + coordinate[1] + ',' + coordinate[0];
+          if(index != coordinate.length + 1){
+            path += '|';
+          }
+        });
+        /*https://maps.googleapis.com/maps/api/directions/json?origin=48.87396223516477,2.295111042446485&destination=48.87396223516477,2.295111042446485&waypoints=via:48.86612446131622,2.312576404506803|via:48.87198647229124,2.3316210022659334&key=AIzaSyC2EbNhEBrOMzZFk4vbwpm6h-GTrfXTwH0*/
         fetch(
             proxyurl +
-                `https://maps.googleapis.com/maps/api/directions/json?origin=48.87396223516477,2.295111042446485&destination=48.87396223516477,2.295111042446485&waypoints=via:48.86612446131622,2.312576404506803|via:48.87198647229124,2.3316210022659334&key=AIzaSyC2EbNhEBrOMzZFk4vbwpm6h-GTrfXTwH0`
+                'https://maps.googleapis.com/maps/api/directions/json?origin=' + origin + '&destination=' + origin + '&waypoints=' + path + '&key=AIzaSyC2EbNhEBrOMzZFk4vbwpm6h-GTrfXTwH0'
         )
             .then((response) => response.json())
             .then((result) => {
@@ -67,10 +92,11 @@ export class MapContainer extends Component {
 
     render() {
         if (this.state.roads['distance'] != undefined) {
+            console.log(this.state.coordinates[0]);
             const itineraire = this.state.roads['steps']
             return (
                 <div className="row GMap">
-                    <h3>Trajet de l'Arc de triomphe au Palais Garnier </h3>
+                    <h3>Votre visite guidée</h3>
                     <Card className="center blue-grey darken-1 orange-text">
                         <span className="card-title">Informations sur le trajet</span>
                         {this.state.roads['distance'] ? <h6>Distance : {this.state.roads['distance']['text']}</h6> : <h6>Distance : Chargement...</h6>}
@@ -99,7 +125,7 @@ export class MapContainer extends Component {
                         })}
                         <h6>Retour au point de départ</h6>
                     </Card>
-                    <Map google={this.props.google} zoom={14} containerStyle={containerStyle} initialCenter={{ lat: 48.87405118435778, lng: 2.2950874251727083 }}>
+                    <Map google={this.props.google} zoom={14} containerStyle={containerStyle} initialCenter={{ lat: this.state.coordinates[0][1], lng: this.state.coordinates[0][0] }}>
                         <Polyline
                             path={this.state.pathCoordinates}
                             options={{
@@ -115,16 +141,13 @@ export class MapContainer extends Component {
                                 ],
                             }}
                         />
-                        <Marker
-                            onClick={this.onMarkerClick}
-                            name={this.state.roads['start_address']}
-                            position={{ lat: 48.87405118435778, lng: 2.2950874251727083 }}
-                        />
-                        <Marker
-                            onClick={this.onMarkerClick}
-                            name={this.state.roads['end_address']}
-                            position={{ lat: 48.87198647229124, lng: 2.3316210022659334 }}
-                        />
+                        {this.state.coordinates.map((marker, index) => {
+                            return  <Marker
+                                onClick={this.onMarkerClick}
+                                name={this.state.noms[index]}
+                                position={{ lat: marker[1], lng: marker[0] }}
+                            />
+                        })}
                         <InfoWindow marker={this.state.activeMarker} visible={this.state.showingInfoWindow} onClose={this.onClose}>
                             <div>
                                 <h4>{this.state.selectedPlace.name}</h4>
