@@ -8,7 +8,9 @@ class CarForm extends Component {
         this.state = {};
     }
 
-
+    sendDataToMainForm = () => {
+      this.props.onSelectModele(this.state.modeleSelected);
+    }
 
     /*Permet de gérer le component*/
     componentDidMount() {
@@ -66,6 +68,12 @@ class CarForm extends Component {
         this.fetchModele(select.target.value);
     }
 
+    selectModeleCheck = (select) => {
+        this.setState({ modeleSelected: select.target.value}, ()=>{
+          this.sendDataToMainForm();
+        });
+    }
+
     render() {
         return (
           <div>
@@ -98,13 +106,13 @@ class CarForm extends Component {
               >
                 Marque
               </option>
-              {this.state.marques ? this.state.marques.map((message, i) => <option key={i}> {message} </option>) : <option>a</option>}
+              {this.state.marques ? this.state.marques.map((message, i) => <option key={i}> {message} </option>) : <option>Chargement...</option>}
             </Select>
 
             <Select
               id="Select-modele"
               multiple={false}
-              onChange={this.noRefCheck}
+              onChange={this.selectModeleCheck}
               options={{
                 classes: '',
                 dropdownOptions: {

@@ -11,11 +11,25 @@ class MainForm extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            modeleSelect: undefined,
             car: undefined,
             cityName: '',
             // date sera un objet moment()
             date: moment(),
         }
+    }
+
+    /*sendData = () => {
+      this.props.parentCallback(this.state);
+    }
+
+    callbackFunctionVehicule = (childData) => {
+      this.state.carProperty = childData;
+      this.sendData();
+    }*/
+
+    handleModele = (modeleValue) => {
+        this.setState({modeleSelect: modeleValue});
     }
 
     /**
@@ -25,7 +39,7 @@ class MainForm extends Component {
      */
     handleClickCity = () => {
         let query = {}
-        const { cityName, date, car } = this.state
+        const { cityName, date, car, modeleSelect } = this.state
         if (cityName) {
             query['ville'] = cityName
         }
@@ -35,6 +49,10 @@ class MainForm extends Component {
         if (car) {
             query['vehicule'] = car
         }
+        if(modeleSelect){
+            query['modele'] = modeleSelect
+        }
+
         this.props.history.push({
             pathname: '/',
             search: queryString.stringify(query),
@@ -65,9 +83,6 @@ class MainForm extends Component {
         return (
             <>
                 <Row>
-                    <CarForm />
-                </Row>
-                <Row>
                     <CitiesAutocomplete placeholder="Ville" cities={this.props.cities} onCityChange={this.handleCityChange} />
                     <DatePicker
                         placeholder="Date"
@@ -90,6 +105,7 @@ class MainForm extends Component {
                     />
                 </Row>
                 <Row>
+                    <CarForm onSelectModele={this.handleModele} />
                     <TextInput placeholder="Véhicule" id="CarInput" onChange={this.updateCarValue} />
                 </Row>
                 <Row>

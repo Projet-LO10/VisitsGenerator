@@ -44,12 +44,20 @@ const fetchWeather = (lat, lon, date) => {
 
 /**
  * Fetch l'API des véhicules
- * @param {string} query
+ * @param {string} name
  */
-const fetchVehicle = (query) => {
-    return fetch(
-        `https://public.opendatasoft.com/api/records/1.0/search/?q=${query}&dataset=vehicules-commercialises&q=&sort=puissance_maximale&facet=marque&facet=modele_utac&facet=carburant&facet=hybride&facet=puissance_administrative&facet=boite_de_vitesse&facet=annee&facet=carrosserie&facet=gamme`
-    )
+const fetchVehicle = (name, modele) => {
+    var fetchURI = "";
+    if(modele){
+      fetchURI = `https://public.opendatasoft.com/api/records/1.0/search/?&dataset=vehicules-commercialises&sort=puissance_maximale&facet=marque&facet=modele_utac&facet=carburant&facet=hybride&facet=puissance_administrative&facet=boite_de_vitesse&facet=annee&facet=carrosserie&facet=gamme&refine.modele_utac=${modele}`;
+    }
+    else if(name){
+      fetchURI = `https://public.opendatasoft.com/api/records/1.0/search/?q=${name}&dataset=vehicules-commercialises&q=&sort=puissance_maximale&facet=marque&facet=modele_utac&facet=carburant&facet=hybride&facet=puissance_administrative&facet=boite_de_vitesse&facet=annee&facet=carrosserie&facet=gamme`;
+    }
+
+     return fetch(
+        fetchURI
+        )
         .then((x) => x.json())
         .then((dataSource) => dataSource.records[0].fields)
 }
@@ -61,8 +69,8 @@ const fetchVehicle = (query) => {
  * @param {object} promises
  */
 const handleOptionalParameters = (settings, promises) => {
-    if (settings.vehicule) {
-        promises.vehicle = fetchVehicle(settings.vehicule)
+    if (settings.vehicule || settings.modele) {
+        promises.vehicle = fetchVehicle(settings.vehicule, settings.modele)
     }
 }
 
