@@ -41,8 +41,8 @@ class Vehicles extends Component {
       const { car } = this.props
 
         return (
-            <div className="App">
-              <h2>Voici les données véhicules</h2>
+            <div>
+              <h3>Voici les données véhicules</h3>
 
               <div className="row">
                   <div className="card blue-grey darken-1">
