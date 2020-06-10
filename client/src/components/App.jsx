@@ -25,9 +25,9 @@ class App extends Component {
             .then((data) => this.setState({ cities: data }))
     }
 
-    /*callbackFunction = (childData) => {
+    callbackFunction = (childData) => {
       this.setState({message: childData})
-    }*/
+    }
 
     render() {
         const { cities } = this.state
