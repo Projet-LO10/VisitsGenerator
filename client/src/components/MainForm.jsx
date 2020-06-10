@@ -22,14 +22,14 @@ class MainForm extends Component {
         }
     }
 
-    sendData = () => {
+    /*sendData = () => {
       this.props.parentCallback(this.state);
     }
 
     callbackFunctionVehicule = (childData) => {
       this.state.carProperty = childData;
       this.sendData();
-    }
+    }*/
 
     /**
      * Méthode appelée dès que l'utlisateur clique sur le bouton de recherche de ville
@@ -38,21 +38,24 @@ class MainForm extends Component {
      */
     handleClickCity = () => {
         let query = {}
-        const { cityName, date } = this.state
+        const { cityName, date, car } = this.state
         if (cityName) {
             query['ville'] = cityName
         }
         if (date) {
             query['date'] = date.format('DD-MMM-YYYY')
         }
+        if (car) {
+            query['vehicule'] = car
+        }
         this.props.history.push({
             pathname: '/',
             search: queryString.stringify(query),
         })
-        this.sendData();
+        //this.sendData();
     }
 
-    handleClickCar = () => {
+    /*handleClickCar = () => {
         let query = {}
         if (this.state.car) {
             query['car'] = this.state.car
@@ -61,7 +64,7 @@ class MainForm extends Component {
             pathname: '/',
             search: queryString.stringify(query),
         })
-    }
+    }*/
 
     /**
      * Handler appelé dès qu'une nouvelle valeur est entrée dans l'autocomplete de villes
@@ -122,19 +125,19 @@ class MainForm extends Component {
                     />
                 </Row>
                 <Row>
+                    <TextInput placeholder="Véhicule" id="CarInput" onChange={this.updateCarValue} />
+                </Row>
+                <Row>
                     <Button node="button" onClick={this.handleClickCity} waves="light">
                         Rechercher
                     </Button>
                 </Row>
-                <Row>
-                    <TextInput placeholder="Véhicule" id="CarInput" onChange={this.updateCarValue} />
-                </Row>
-                <Row>
+                {/*}<Row>
                     <Button node="button" onClick={this.handleClickCar} waves="light">
                         Rechercher
                     </Button>
-                </Row>
-                <Row>{query.car && <Vehicles car={query.car} parentCallback={this.callbackFunctionVehicule} />}</Row>
+                </Row>*/}
+                {/*<Row>{query.car && <Vehicles car={query.car} />}</Row>*/}
                 {/* <Row>{query.ville && city && <Museums ville={query.ville} />}</Row> */}
                 {/* <Row>{query.ville && city && <HistoricalMonuments ville={query.ville} />}</Row> */}
                 {/* <Row>{query.ville && query.date && city && <Weather ville={query.ville} lat={Number(city.centre.coordinates[1])} lon={Number(city.centre.coordinates[0])} date={query.date} />}</Row> */}

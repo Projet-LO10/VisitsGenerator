@@ -6,16 +6,16 @@ class Vehicles extends Component {
         super(props)
     }
 
-    state = {
+    /*state = {
         post: {},
     }
 
     sendData = () => {
-      this.props.parentCallback(this.state.post);
+      this.props.parentCallback(car);
     }
 
     /*Permet de gérer le component*/
-    componentDidMount() {
+    /*componentDidMount() {
         this.fetchVehicles()
 
     }
@@ -35,9 +35,11 @@ class Vehicles extends Component {
                     this.setState({ post: result.records[0].fields })
                 }, 1500)
             })
-    }
+    }*/
 
     render() {
+      const { car } = this.props
+
         return (
             <div className="App">
               <h2>Voici les données véhicules</h2>
@@ -46,10 +48,10 @@ class Vehicles extends Component {
                   <div className="card blue-grey darken-1">
                       <div className="card-content orange-text">
                           <span className="card-title">Informations générales</span>
-                          {this.state.post.marque ? <h6>Marque : {this.state.post.marque}</h6> : <h6>Marque : Chargement...</h6>}
-                          {this.state.post.designation_commerciale ? <h6>Modèle : {this.state.post.designation_commerciale}</h6> : <h6>Marque : Chargement...</h6>}
-                          {this.state.post.carburant ? <h6>Carburant : {this.state.post.carburant}</h6> : <h6>Carburant : Chargement...</h6>}
-                          {this.state.post.co2_g_km ? <h6>CO2 rejeté : {this.state.post.co2_g_km} g/km</h6> : <h6>CO2 rejeté : Chargement...</h6>}
+                          {car.marque ? <h6>Marque : {car.marque}</h6> : <h6>Marque : Chargement...</h6>}
+                          {car.designation_commerciale ? <h6>Modèle : {car.designation_commerciale}</h6> : <h6>Marque : Chargement...</h6>}
+                          {car.carburant ? <h6>Carburant : {car.carburant}</h6> : <h6>Carburant : Chargement...</h6>}
+                          {car.co2_g_km ? <h6>CO2 rejeté : {car.co2_g_km} g/km</h6> : <h6>CO2 rejeté : Chargement...</h6>}
                       </div>
                   </div>
               </div>
@@ -59,7 +61,7 @@ class Vehicles extends Component {
 }
 
 Vehicles.propTypes = {
-    car: PropTypes.string.isRequired,
+    car: PropTypes.object.isRequired,
 }
 
 export default Vehicles

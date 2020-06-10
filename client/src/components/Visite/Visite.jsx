@@ -6,6 +6,7 @@ import Weather from 'components/Weather/Weather'
 import Museums from 'components/Museums/Museums'
 import HistoricalMonuments from 'components/HistoricalMonuments/HistoricalMonuments'
 import GMaps from 'components/GMaps/GMaps'
+import Vehicles from 'components/Vehicles/Vehicles.jsx'
 
 class Visite extends Component {
     constructor(props) {
@@ -50,6 +51,7 @@ class Visite extends Component {
         const { weather, museums, monuments, vehicle } = this.state.data
         return (
             <div>
+                {vehicle && <Vehicles car={vehicle} />}
                 <Weather dataSource={weather} ville={ville} date={date} />
                 <Museums dataSource={museums} ville={ville} />
                 <HistoricalMonuments dataSource={monuments} ville={ville} />
