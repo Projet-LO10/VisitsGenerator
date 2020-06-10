@@ -14,8 +14,8 @@ const containerStyle = {
   {lat: 48.8626979, lng: 2.2875026}
 ];*/
 
-const proxyurl = 'https://cors-anywhere.herokuapp.com/'
-
+//const proxyurl = 'https://cors-anywhere.herokuapp.com/'
+//const proxyurl = 'http://www.bertrandpotart.com/freesurf/'
 export class MapContainer extends Component {
     state = {
         showingInfoWindow: false, //Hides or the shows the infoWindow
@@ -28,12 +28,12 @@ export class MapContainer extends Component {
     }
 
     /*Permet de gérer le component*/
-    componentDidMount() {
-        this.fetchRoads()
+    /*componentDidMount() {
+        //this.fetchRoads()
     }
 
     fetchRoads = () => {
-        const museums = this.props.dataSource.records.filter((museum) => museum.hasOwnProperty('geometry'))
+        const museums = this.props.museums.records.filter((museum) => museum.hasOwnProperty('geometry'))
         let coordinates = [];
         let noms = [];
         museums.map((museum) => {
@@ -57,9 +57,10 @@ export class MapContainer extends Component {
           }
         });
         /*https://maps.googleapis.com/maps/api/directions/json?origin=48.87396223516477,2.295111042446485&destination=48.87396223516477,2.295111042446485&waypoints=via:48.86612446131622,2.312576404506803|via:48.87198647229124,2.3316210022659334&key=AIzaSyC2EbNhEBrOMzZFk4vbwpm6h-GTrfXTwH0*/
-        fetch(
+        /*fetch(
             proxyurl +
                 'https://maps.googleapis.com/maps/api/directions/json?origin=' + origin + '&destination=' + origin + '&waypoints=' + path + '&key=AIzaSyC2EbNhEBrOMzZFk4vbwpm6h-GTrfXTwH0'
+                //'https://maps.googleapis.com/maps/api/directions/json?origin=48.87396223516477,2.295111042446485&destination=48.87396223516477,2.295111042446485&waypoints=via:48.86612446131622,2.312576404506803|via:48.87198647229124,2.3316210022659334&key=AIzaSyC2EbNhEBrOMzZFk4vbwpm6h-GTrfXTwH0'
         )
             .then((response) => response.json())
             .then((result) => {
@@ -88,19 +89,22 @@ export class MapContainer extends Component {
                 activeMarker: null,
             })
         }
-    }
+    }*/
 
     render() {
-        if (this.state.roads['distance'] != undefined) {
-            console.log(this.state.coordinates[0]);
-            const itineraire = this.state.roads['steps']
+        const { dataSource } = this.props
+        console.log(dataSource);
+
+        if (dataSource.roads['distance'] != undefined) {
+            console.log(dataSource.coordinates[0]);
+            const itineraire = dataSource.roads['steps']
             return (
                 <div className="row GMap">
                     <h3>Votre visite guidée</h3>
                     <Card className="center blue-grey darken-1 orange-text">
                         <span className="card-title">Informations sur le trajet</span>
-                        {this.state.roads['distance'] ? <h6>Distance : {this.state.roads['distance']['text']}</h6> : <h6>Distance : Chargement...</h6>}
-                        {this.state.roads['duration'] ? <h6>Durée : {this.state.roads['duration']['text']}</h6> : <h6>Durée : Chargement...</h6>}
+                        {dataSource.roads['distance'] ? <h6>Distance : {dataSource.roads['distance']['text']}</h6> : <h6>Distance : Chargement...</h6>}
+                        {dataSource.roads['duration'] ? <h6>Durée : {dataSource.roads['duration']['text']}</h6> : <h6>Durée : Chargement...</h6>}
                     </Card>
                     <Card className="center blue-grey darken-1 orange-text">
                         <span className="card-title">Etapes du trajet</span>
@@ -125,9 +129,9 @@ export class MapContainer extends Component {
                         })}
                         <h6>Retour au point de départ</h6>
                     </Card>
-                    <Map google={this.props.google} zoom={14} containerStyle={containerStyle} initialCenter={{ lat: this.state.coordinates[0][1], lng: this.state.coordinates[0][0] }}>
+                    <Map google={this.props.google} zoom={14} containerStyle={containerStyle} initialCenter={{ lat: dataSource.coordinates[0][1], lng: dataSource.coordinates[0][0] }}>
                         <Polyline
-                            path={this.state.pathCoordinates}
+                            path={dataSource.pathCoordinates}
                             options={{
                                 strokeColor: '#FF0000',
                                 strokeOpacity: 1,
@@ -141,14 +145,14 @@ export class MapContainer extends Component {
                                 ],
                             }}
                         />
-                        {this.state.coordinates.map((marker, index) => {
+                        {dataSource.coordinates.map((marker, index) => {
                             return  <Marker
                                 onClick={this.onMarkerClick}
-                                name={this.state.noms[index]}
+                                name={dataSource.noms[index]}
                                 position={{ lat: marker[1], lng: marker[0] }}
                             />
                         })}
-                        <InfoWindow marker={this.state.activeMarker} visible={this.state.showingInfoWindow} onClose={this.onClose}>
+                        <InfoWindow marker={dataSource.activeMarker} visible={dataSource.showingInfoWindow} onClose={this.onClose}>
                             <div>
                                 <h4>{this.state.selectedPlace.name}</h4>
                             </div>

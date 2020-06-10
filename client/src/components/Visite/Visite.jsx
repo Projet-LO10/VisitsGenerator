@@ -49,7 +49,7 @@ class Visite extends Component {
         const { ville, date } = this.props.query
         // Ces constantes sont les données qui ont été fetch par l'API
         // Attention, certaines peuvent être nulles (ex: vehicle)
-        const { weather, museums, monuments, vehicle } = this.state.data
+        const { weather, museums, monuments, vehicle, roads } = this.state.data
         return (
             <div>
                 {vehicle && <Vehicles car={vehicle} />}
@@ -57,8 +57,7 @@ class Visite extends Component {
                 <Weather dataSource={weather} ville={ville} date={date} />
                 <Museums dataSource={museums} ville={ville} />
                 <HistoricalMonuments dataSource={monuments} ville={ville} />
-                {/*<GMaps dataSource={museums} ville={ville} />*/}
-                {/* Ajouter les composants React ici */}
+                {<GMaps dataSource={roads} museums={museums} ville={ville} />}
             </div>
         )
     }

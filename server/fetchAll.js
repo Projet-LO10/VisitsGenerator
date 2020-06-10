@@ -1,6 +1,61 @@
 const fetch = require('node-fetch')
 const moment = require('moment')
 
+const proxyurl = 'https://cors-anywhere.herokuapp.com/'
+
+const fetchRoads = (dataMuseums) => {
+    const museums = dataMuseums.records.filter((museum) => museum.hasOwnProperty('geometry'))
+    let coordinates = [];
+    let noms = [];
+    museums.map((museum) => {
+        // Certains musées sont dôtés de coordonnées, d'autres noms:
+        // Ceux-ci ont un objet geometry
+        // avec un champ coordinates [longitude, latitude]
+        noms.push(museum['fields']['nom_du_musee']);
+        coordinates.push(museum.geometry['coordinates']);
+    });
+    //this.setState({noms: noms});
+    //this.setState({coordinates: coordinates});
+    let origin = '';
+    let path = '';
+    coordinates.map((coordinate, index) => {
+      if(index == 1){
+        origin = coordinate[1] + ',' + coordinate[0];
+      }
+      path += "via:" + coordinate[1] + ',' + coordinate[0];
+      if(index != coordinate.length + 1){
+        path += '|';
+      }
+    });
+    //console.log(museums);
+    /*https://maps.googleapis.com/maps/api/directions/json?origin=48.87396223516477,2.295111042446485&destination=48.87396223516477,2.295111042446485&waypoints=via:48.86612446131622,2.312576404506803|via:48.87198647229124,2.3316210022659334&key=AIzaSyC2EbNhEBrOMzZFk4vbwpm6h-GTrfXTwH0*/
+    return fetch(
+        //proxyurl +
+            'https://maps.googleapis.com/maps/api/directions/json?origin=' + origin + '&destination=' + origin + '&waypoints=' + path + '&key=AIzaSyC2EbNhEBrOMzZFk4vbwpm6h-GTrfXTwH0'
+            //'https://maps.googleapis.com/maps/api/directions/json?origin=48.87396223516477,2.295111042446485&destination=48.87396223516477,2.295111042446485&waypoints=via:48.86612446131622,2.312576404506803|via:48.87198647229124,2.3316210022659334&key=AIzaSyC2EbNhEBrOMzZFk4vbwpm6h-GTrfXTwH0'
+    )
+    .then((response) => response.json())
+    .then((result) => {
+        var res = {};
+        res.coordinates = coordinates;
+        res.noms = noms;
+        //this.setState({ roads: result['routes'][0]['legs'][0] })
+        res.roads = result['routes'][0]['legs'][0];
+        //console.log(result);
+        let temp = []
+        temp.push({ lat: res.roads['start_location']['lat'], lng: res.roads['start_location']['lng'] })
+        for (var i = 0; i < res.roads['steps'].length; i++) {
+            temp.push(res.roads['steps'][i]['end_location'])
+        }
+        temp.push({ lat: res.roads['end_location']['lat'], lng: res.roads['end_location']['lng'] })
+        res.pathCoordinates = temp;
+
+        //console.log(res);
+
+        return res;
+    });
+}
+
 /**
  * Fetch l'API des musées
  * @param {string} ville Nom de la ville
@@ -89,6 +144,7 @@ const fetchAll = (settings) => {
         museums: fetchMuseums(ville),
         monuments: fetchMonuments(ville),
     }
+
     // On gère les paramètres optionnels
     handleOptionalParameters(settings, promises)
     // Toutes les promesses sont exécutées, rentre dans le then lorsque toutes sont terminées
@@ -103,7 +159,13 @@ const fetchAll = (settings) => {
                     }, {})
                 )
             })
-    )
+    ).then((result) => {
+      return fetchRoads(result.museums).then((res)=>{
+        result.roads = res;
+        return result;
+      });
+      //return result;
+    })
 }
 
 module.exports = fetchAll
