@@ -54,7 +54,7 @@ class App extends Component {
                 <footer className="page-footer blue darken-3">
                     <div className="footer-copyright blue darken-4">
                         <div className="container">
-                            Made with ❤️ by Damien, Axel and Victor
+                            Made with ❤️ by Axel, Damien and Victor
                         </div>
                     </div>
                 </footer>
