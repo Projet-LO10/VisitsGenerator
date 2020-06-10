@@ -53,7 +53,9 @@ class App extends Component {
                 {/* Footer */}
                 <footer className="page-footer blue darken-3">
                     <div className="footer-copyright blue darken-4">
-                        <div className="container"></div>
+                        <div className="container">
+                            Made with ❤️ by Damien, Axel and Victor
+                        </div>
                     </div>
                 </footer>
             </Router>
