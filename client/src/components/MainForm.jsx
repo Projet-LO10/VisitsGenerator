@@ -97,6 +97,18 @@ class MainForm extends Component {
                         Rechercher
                     </Button>
                 </Row>
+<<<<<<< HEAD
+=======
+                {/*<Row>
+                    <Button node="button" onClick={this.handleClickCar} waves="light">
+                        Rechercher
+                    </Button>
+                </Row>*/}
+                {/*<Row>{query.car && <Vehicles car={query.car} />}</Row>*/}
+                {/* <Row>{query.ville && city && <Museums ville={query.ville} />}</Row> */}
+                {/* <Row>{query.ville && city && <HistoricalMonuments ville={query.ville} />}</Row> */}
+                {/* <Row>{query.ville && query.date && city && <Weather ville={query.ville} lat={Number(city.centre.coordinates[1])} lon={Number(city.centre.coordinates[0])} date={query.date} />}</Row> */}
+>>>>>>> 986bb00c90f7a532498a9bd5126d41658ab40fd7
             </>
         )
     }

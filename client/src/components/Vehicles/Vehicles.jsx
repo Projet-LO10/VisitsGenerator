@@ -6,37 +6,6 @@ class Vehicles extends Component {
         super(props)
     }
 
-    /*state = {
-        post: {},
-    }
-
-    sendData = () => {
-      this.props.parentCallback(car);
-    }
-
-    /*Permet de gérer le component*/
-    /*componentDidMount() {
-        this.fetchVehicles()
-
-    }
-
-    componentDidUpdate(prevProps) {
-        if (prevProps.car !== this.props.car) {
-          this.fetchVehicles();
-          this.sendData();
-        }
-    }
-
-    fetchVehicles = () => {
-        fetch(`https://public.opendatasoft.com/api/records/1.0/search/?q=${this.props.car}&dataset=vehicules-commercialises&q=&sort=puissance_maximale&facet=marque&facet=modele_utac&facet=carburant&facet=hybride&facet=puissance_administrative&facet=boite_de_vitesse&facet=annee&facet=carrosserie&facet=gamme`)
-            .then(response =>  response.json())
-            .then((result) => {
-                setTimeout(() => {
-                    this.setState({ post: result.records[0].fields })
-                }, 1500)
-            })
-    }*/
-
     render() {
       const { car } = this.props
 

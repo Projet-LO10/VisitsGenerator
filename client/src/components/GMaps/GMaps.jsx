@@ -154,14 +154,14 @@ export class MapContainer extends Component {
                             </div>
                         </InfoWindow>
                     </Map>
-                    <Card className="center blue-grey darken-1 orange-text">
+                    {/*<Card className="center blue-grey darken-1 orange-text">
                         <span className="card-title">Informations sur le trajet</span>
                         {this.state.roads['distance'] && this.props.car ? (
                             <h6>Economie carbone : {(this.state.roads['distance']['value'] / 1000) * this.props.car.co2_g_km} g</h6>
                         ) : (
                             <h6>Economie carbone : Chargement...</h6>
                         )}
-                    </Card>
+                    </Card>*/}
                 </div>
             )
         } else {
