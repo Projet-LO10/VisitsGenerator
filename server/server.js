@@ -71,7 +71,10 @@ const fetchResults = (req, res, next) => {
             next()
         })
         // En cas d'erreur de logique interne, le serveur renvoie l'erreur 500
-        .catch((e) => res.sendStatus(500))
+        .catch((e) => {
+            console.log(`Error - [Serveur Express] ${e}`)
+            res.sendStatus(500)
+        })
 }
 
 /**
