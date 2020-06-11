@@ -106,7 +106,7 @@ class MainForm extends Component {
                 </Row>
                 <Row>
                     <CarForm onSelectModele={this.handleModele} />
-                    <TextInput placeholder="Véhicule" id="CarInput" onChange={this.updateCarValue} />
+                    {/*<TextInput placeholder="Véhicule" id="CarInput" onChange={this.updateCarValue} />*/}
                 </Row>
                 <Row>
                     <Button node="button" onClick={this.handleClickCity} waves="light">

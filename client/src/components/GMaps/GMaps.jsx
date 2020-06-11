@@ -9,11 +9,6 @@ const containerStyle = {
     height: '300px',
 }
 
-/*const pathCoordinates = [
-  {lat: 48.8742977, lng: 2.2949816},
-  {lat: 48.8626979, lng: 2.2875026}
-];*/
-
 //const proxyurl = 'https://cors-anywhere.herokuapp.com/'
 //const proxyurl = 'http://www.bertrandpotart.com/freesurf/'
 export class MapContainer extends Component {
