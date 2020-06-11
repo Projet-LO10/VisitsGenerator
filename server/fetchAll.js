@@ -19,12 +19,14 @@ const fetchRoads = (dataMuseums) => {
     let origin = '';
     let path = '';
     coordinates.map((coordinate, index) => {
-      if(index == 1){
-        origin = coordinate[1] + ',' + coordinate[0];
-      }
-      path += "via:" + coordinate[1] + ',' + coordinate[0];
-      if(index != coordinate.length + 1){
-        path += '|';
+      if(index <= 4){
+        if(index == 1){
+          origin = coordinate[1] + ',' + coordinate[0];
+        }
+        path += "via:" + coordinate[1] + ',' + coordinate[0];
+        if(index != 4 && index != (coordinates.length - 1)){
+          path += '|';
+        }
       }
     });
     //console.log(museums);

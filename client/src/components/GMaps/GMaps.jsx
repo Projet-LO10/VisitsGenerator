@@ -146,11 +146,13 @@ export class MapContainer extends Component {
                             }}
                         />
                         {dataSource.coordinates.map((marker, index) => {
+                          if(index <= 4) {
                             return  <Marker
                                 onClick={this.onMarkerClick}
                                 name={dataSource.noms[index]}
                                 position={{ lat: marker[1], lng: marker[0] }}
                             />
+                          }
                         })}
                         <InfoWindow marker={dataSource.activeMarker} visible={dataSource.showingInfoWindow} onClose={this.onClose}>
                             <div>
