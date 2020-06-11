@@ -5,8 +5,8 @@ import { Preloader, Card, CardPanel } from 'react-materialize'
 
 const containerStyle = {
     position: 'relative',
-    width: '400px',
-    height: '300px',
+    width: '100%',
+    height: '500px',
 }
 
 //const proxyurl = 'https://cors-anywhere.herokuapp.com/'
