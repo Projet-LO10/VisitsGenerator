@@ -37,7 +37,8 @@ class Museum extends Component {
         return museums.length ? (
             <>
                 <h3>Liste des musées à {this.props.ville}</h3>
-                {museums.map((museum) => {
+                {museums.map((museum, index) => {
+                  if (index <= 5) {
                     // Certains musées sont dôtés de coordonnées, d'autres noms:
                     // Ceux-ci ont un objet geometry
                     // avec un champ coordinates [longitude, latitude]
@@ -54,6 +55,7 @@ class Museum extends Component {
                             </p>
                         </Card>
                     )
+                  }
                 })}
             </>
         ) : (

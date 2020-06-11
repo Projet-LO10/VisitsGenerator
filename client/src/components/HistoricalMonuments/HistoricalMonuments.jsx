@@ -38,7 +38,8 @@ class HistoricalMonuments extends Component {
         return monuments.length ? (
             <>
                 <h3>Liste des monuments historiques à {this.props.ville}</h3>
-                {monuments.map((monument) => {
+                {monuments.map((monument, index) => {
+                  if (index <= 5) {
                     // Certains monuments sont dôtés de coordonnées, d'autres noms:
                     // Ceux-ci ont un objet geometry
                     // avec un champ coordinates [longitude, latitude]
@@ -55,6 +56,7 @@ class HistoricalMonuments extends Component {
                             </p>
                         </Card>
                     )
+                  }
                 })}
             </>
         ) : (
