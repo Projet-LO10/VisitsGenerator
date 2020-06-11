@@ -57,7 +57,7 @@ class Visite extends Component {
                 <Weather dataSource={weather} ville={ville} date={date} />
                 <Museums dataSource={museums} ville={ville} />
                 <HistoricalMonuments dataSource={monuments} ville={ville} />
-                {<GMaps dataSource={roads} museums={museums} ville={ville} />}
+                {<GMaps dataSource={roads} ville={ville} />}
             </div>
         )
     }

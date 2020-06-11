@@ -146,7 +146,7 @@ export class MapContainer extends Component {
                             }}
                         />
                         {dataSource.coordinates.map((marker, index) => {
-                          if(index <= 4) {
+                          if(index <= 5) {
                             return  <Marker
                                 onClick={this.onMarkerClick}
                                 name={dataSource.noms[index]}

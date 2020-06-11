@@ -19,12 +19,12 @@ const fetchRoads = (dataMuseums) => {
     let origin = '';
     let path = '';
     coordinates.map((coordinate, index) => {
-      if(index <= 4){
+      if(index <= 5){
         if(index == 1){
           origin = coordinate[1] + ',' + coordinate[0];
         }
         path += "via:" + coordinate[1] + ',' + coordinate[0];
-        if(index != 4 && index != (coordinates.length - 1)){
+        if(index != 5 && index != (coordinates.length - 1)){
           path += '|';
         }
       }
@@ -33,7 +33,7 @@ const fetchRoads = (dataMuseums) => {
     /*https://maps.googleapis.com/maps/api/directions/json?origin=48.87396223516477,2.295111042446485&destination=48.87396223516477,2.295111042446485&waypoints=via:48.86612446131622,2.312576404506803|via:48.87198647229124,2.3316210022659334&key=AIzaSyC2EbNhEBrOMzZFk4vbwpm6h-GTrfXTwH0*/
     return fetch(
         //proxyurl +
-            'https://maps.googleapis.com/maps/api/directions/json?origin=' + origin + '&destination=' + origin + '&waypoints=' + path + '&key=AIzaSyC2EbNhEBrOMzZFk4vbwpm6h-GTrfXTwH0'
+            'https://maps.googleapis.com/maps/api/directions/json?origin=' + origin + '&destination=' + origin + '&waypoints=' + path + '&language=fr&key=AIzaSyC2EbNhEBrOMzZFk4vbwpm6h-GTrfXTwH0'
             //'https://maps.googleapis.com/maps/api/directions/json?origin=48.87396223516477,2.295111042446485&destination=48.87396223516477,2.295111042446485&waypoints=via:48.86612446131622,2.312576404506803|via:48.87198647229124,2.3316210022659334&key=AIzaSyC2EbNhEBrOMzZFk4vbwpm6h-GTrfXTwH0'
     )
     .then((response) => response.json())
@@ -146,7 +146,6 @@ const fetchAll = (settings) => {
         museums: fetchMuseums(ville),
         monuments: fetchMonuments(ville),
     }
-
     // On gère les paramètres optionnels
     handleOptionalParameters(settings, promises)
     // Toutes les promesses sont exécutées, rentre dans le then lorsque toutes sont terminées
@@ -162,7 +161,13 @@ const fetchAll = (settings) => {
                 )
             })
     ).then((result) => {
-      return fetchRoads(result.museums).then((res)=>{
+      let choix;
+      if (result.weather.weather.code.toString().substr(0,1) == 8) {
+        choix = result.monuments;
+      } else {
+        choix = result.museums;
+      }
+      return fetchRoads(choix).then((res)=>{
         result.roads = res;
         return result;
       });
