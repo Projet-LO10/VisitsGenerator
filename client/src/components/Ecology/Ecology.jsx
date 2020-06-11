@@ -9,14 +9,14 @@ class Ecology extends Component {
     }
 
     render() {
-        const { car, dist } = this.props
+        const { car, eco } = this.props
 
         return (
             <div className="App">
               <Card className="center blue-grey darken-1 orange-text">
                   <span className="card-title">Informations sur le trajet</span>
-                  {dist && car ? (
-                      <h6>Economie carbone : {(dist / 1000) * car.co2_g_km} g</h6>
+                  {eco && car ? (
+                      <h6>Economie carbone : {eco} g</h6>
                   ) : (
                       <h6>Economie carbone : Chargement...</h6>
                   )}

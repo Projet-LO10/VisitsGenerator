@@ -49,11 +49,11 @@ class Visite extends Component {
         const { ville, date } = this.props.query
         // Ces constantes sont les données qui ont été fetch par l'API
         // Attention, certaines peuvent être nulles (ex: vehicle)
-        const { weather, museums, monuments, vehicle, roads } = this.state.data
+        const { weather, museums, monuments, vehicle, roads, eco } = this.state.data
         return (
             <div>
                 {vehicle && <Vehicles car={vehicle} />}
-                {vehicle && <Ecology dist={roads.roads.distance.value} car={vehicle} />}
+                {vehicle && <Ecology eco={eco} car={vehicle} />}
                 <Weather dataSource={weather} ville={ville} date={date} />
                 <Museums dataSource={museums} ville={ville} />
                 <HistoricalMonuments dataSource={monuments} ville={ville} />
