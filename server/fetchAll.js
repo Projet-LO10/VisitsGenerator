@@ -164,12 +164,16 @@ const fetchAll = (settings) => {
       let choix;
       if (result.weather.weather.code.toString().substr(0,1) == 8) {
         choix = result.monuments;
+        result.museums = [];
       } else {
         choix = result.museums;
+        result.monuments = [];
       }
       return fetchRoads(choix).then((res)=>{
         result.roads = res;
         if(result && res.vehicule && result.vehicle.co2_g_km)
+          console.log(result.roads.roads.distance.value);
+          console.log(result.vehicle.co2_g_km);
           result.eco = result.roads.roads.distance.value/1000 * result.vehicle.co2_g_km;
         return result;
       });
