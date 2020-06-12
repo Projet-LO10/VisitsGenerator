@@ -33,7 +33,7 @@ const fetchRoads = (dataMuseums) => {
     /*https://maps.googleapis.com/maps/api/directions/json?origin=48.87396223516477,2.295111042446485&destination=48.87396223516477,2.295111042446485&waypoints=via:48.86612446131622,2.312576404506803|via:48.87198647229124,2.3316210022659334&key=AIzaSyC2EbNhEBrOMzZFk4vbwpm6h-GTrfXTwH0*/
     return fetch(
         //proxyurl +
-            'https://maps.googleapis.com/maps/api/directions/json?origin=' + origin + '&destination=' + origin + '&waypoints=' + path + '&language=fr&key=AIzaSyC2EbNhEBrOMzZFk4vbwpm6h-GTrfXTwH0'
+            'https://maps.googleapis.com/maps/api/directions/json?origin=' + origin + '&destination=' + origin + '&waypoints=' + path + '&language=fr&mode=walking&key=AIzaSyC2EbNhEBrOMzZFk4vbwpm6h-GTrfXTwH0'
             //'https://maps.googleapis.com/maps/api/directions/json?origin=48.87396223516477,2.295111042446485&destination=48.87396223516477,2.295111042446485&waypoints=via:48.86612446131622,2.312576404506803|via:48.87198647229124,2.3316210022659334&key=AIzaSyC2EbNhEBrOMzZFk4vbwpm6h-GTrfXTwH0'
     )
     .then((response) => response.json())
