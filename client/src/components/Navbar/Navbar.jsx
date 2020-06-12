@@ -4,7 +4,7 @@ const Navbar = () => (
     <nav>
         <div className="nav-wrapper blue darken-4">
             <a href="#" className="brand-logo center">
-                Visites Guidées Générateur
+                Générateur de visites guidées
             </a>
         </div>
     </nav>

@@ -42,7 +42,7 @@ class CitiesAutocomplete extends Component {
             this.props.onCityChange(city ? city.nom : '')
         }
     }
-    
+
     render() {
         const options = {
             data: this.state.autocompleteData,
@@ -59,6 +59,9 @@ class CitiesAutocomplete extends Component {
                 value={this.state.cityInputValue}
                 // autoComplete="off" permet d'éviter que le navigateur propose lui-même l'autocomplétion pour les balises <input>
                 autoComplete="off"
+                s={12}
+                m={7}
+                l={8}
             />
         )
     }

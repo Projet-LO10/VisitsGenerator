@@ -81,7 +81,10 @@ class MainForm extends Component {
 
     render() {
         return (
-            <>
+            <div className="form">
+                <div>
+                  <h3>Quelle ville allez-vous découvrir aujourd'hui ? </h3>
+                </div>
                 <Row>
                     <CitiesAutocomplete placeholder="Ville" cities={this.props.cities} onCityChange={this.handleCityChange} />
                     <DatePicker
@@ -102,8 +105,12 @@ class MainForm extends Component {
                         }}
                         autoComplete="off"
                         defaultValue={moment().format('DD MMM YYYY')}
+                        l={4}
                     />
                 </Row>
+                <div>
+                  <h5> Calculer en un clic l'économie carbonne réalisée en vous déplaçant à pied </h5>
+                </div>
                 <Row>
                     <CarForm onSelectModele={this.handleModele} />
                     {/*<TextInput placeholder="Véhicule" id="CarInput" onChange={this.updateCarValue} />*/}
@@ -113,7 +120,7 @@ class MainForm extends Component {
                         Rechercher
                     </Button>
                 </Row>
-            </>
+            </div>
         )
     }
 }

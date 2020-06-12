@@ -80,6 +80,7 @@ class CarForm extends Component {
             <Select
               id="Select-marque"
               multiple={false}
+              l={6}
               onChange={this.selectMarqueCheck}
               options={{
                 classes: '',
@@ -112,6 +113,7 @@ class CarForm extends Component {
             <Select
               id="Select-modele"
               multiple={false}
+              l={6}
               onChange={this.selectModeleCheck}
               options={{
                 classes: '',
