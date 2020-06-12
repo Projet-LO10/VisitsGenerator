@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Preloader, Card, CardPanel } from 'react-materialize'
+import { Preloader, Card, CardPanel, Collection, CollectionItem } from 'react-materialize'
 
 class HistoricalMonuments extends Component {
     constructor(props) {
@@ -37,8 +37,28 @@ class HistoricalMonuments extends Component {
         const monuments = this.props.dataSource.records.filter((monument) => monument.hasOwnProperty('geometry'))
         return monuments.length ? (
             <>
-                <h3>Liste des monuments historiques à {this.props.ville}</h3>
-                {monuments.map((monument, index) => {
+                <h4>Liste des monuments historiques à {this.props.ville}</h4>
+                <Collection>
+                    {monuments.map((monument, index) => {
+                        if (index <= 5) {
+                            // Certains monuments sont dôtés de coordonnées, d'autres noms:
+                            // Ceux-ci ont un objet geometry
+                            // avec un champ coordinates [longitude, latitude]
+                            const { coordinates } = monument.geometry,
+                                lon = coordinates[0],
+                                lat = coordinates[1]
+                            return (
+                                <CollectionItem key={monument.recordid}>
+                                    <p><strong>{monument.fields['tico']}</strong></p>
+                                    <p>{monument.fields['adrs']}</p>
+                                    <p>{monument.fields['hist']}</p>
+                                    <p>{monument.fields['scle']}</p>
+                                </CollectionItem>
+                            )
+                        }
+                    })}
+                </Collection>
+                {/* {monuments.map((monument, index) => {
                   if (index <= 5) {
                     // Certains monuments sont dôtés de coordonnées, d'autres noms:
                     // Ceux-ci ont un objet geometry
@@ -57,7 +77,7 @@ class HistoricalMonuments extends Component {
                         </Card>
                     )
                   }
-                })}
+                })} */}
             </>
         ) : (
             <CardPanel className="red accent-1">Aucun monument disponible à {this.props.ville}</CardPanel>

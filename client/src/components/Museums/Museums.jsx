@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Preloader, Card, CardPanel } from 'react-materialize'
+import { Preloader, Card, CardPanel, Collection, CollectionItem } from 'react-materialize'
 
 class Museum extends Component {
     constructor(props) {
@@ -36,8 +36,31 @@ class Museum extends Component {
         const museums = this.props.dataSource.records.filter((museum) => museum.hasOwnProperty('geometry'))
         return museums.length ? (
             <>
-                <h3>Liste des musées à {this.props.ville}</h3>
-                {museums.map((museum, index) => {
+                <h4>Liste des musées à {this.props.ville}</h4>
+                <Collection>
+                    {museums.map((museum, index) => {
+                        if (index <= 5) {
+                            // Certains musées sont dôtés de coordonnées, d'autres noms:
+                            // Ceux-ci ont un objet geometry
+                            // avec un champ coordinates [longitude, latitude]
+                            const { coordinates } = museum.geometry,
+                                lon = coordinates[0],
+                                lat = coordinates[1]
+                            return (
+                                <CollectionItem key={museum.recordid}>
+                                    <p><strong>{museum.fields['nom_du_musee']}</strong></p>
+                                    <p>{museum.fields['addr']}</p>
+                                    <p>{museum.fields['periode_ouverture']}</p>
+                                    <p>{museum.fields['sitweb']}</p>
+                                    {/* <p>
+                                        Latitude : {lat}, longitude: {lon}
+                                    </p> */}
+                                </CollectionItem>
+                            )
+                        }
+                    })}
+                </Collection>
+                {/* {museums.map((museum, index) => {
                   if (index <= 5) {
                     // Certains musées sont dôtés de coordonnées, d'autres noms:
                     // Ceux-ci ont un objet geometry
@@ -56,7 +79,7 @@ class Museum extends Component {
                         </Card>
                     )
                   }
-                })}
+                })} */}
             </>
         ) : (
             <CardPanel className="red accent-1">Aucun musée disponible à {this.props.ville}</CardPanel>

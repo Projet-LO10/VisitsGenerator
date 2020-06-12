@@ -51,7 +51,7 @@ class Visite extends Component {
         // Attention, certaines peuvent être nulles (ex: vehicle)
         const { weather, museums, monuments, vehicle, roads, eco } = this.state.data
         return (
-            <div>
+            <div className="animate__animated animate__backInDown">
                 <GMaps dataSource={roads} ville={ville} />
                 {vehicle && <Vehicles car={vehicle} />}
                 {vehicle && <Ecology eco={eco} car={vehicle} />}
