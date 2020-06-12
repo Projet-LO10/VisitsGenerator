@@ -28,7 +28,7 @@ class Ecology extends Component {
 
 Ecology.propTypes = {
     car: PropTypes.object.isRequired,
-    dist: PropTypes.string.isRequired,
+    eco: PropTypes.number.isRequired,
 }
 
 export default Ecology

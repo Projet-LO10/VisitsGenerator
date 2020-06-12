@@ -172,6 +172,8 @@ const fetchAll = (settings) => {
       return fetchRoads(choix).then((res)=>{
         result.roads = res;
         if(result && res.vehicule && result.vehicle.co2_g_km)
+          console.log(result.roads.roads.distance.value);
+          console.log(result.vehicle.co2_g_km);
           result.eco = result.roads.roads.distance.value/1000 * result.vehicle.co2_g_km;
         return result;
       });
