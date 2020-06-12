@@ -56,8 +56,8 @@ class Visite extends Component {
                 {vehicle && <Vehicles car={vehicle} />}
                 {vehicle && <Ecology eco={eco} car={vehicle} />}
                 <Weather dataSource={weather} ville={ville} date={date} />
-                <Museums dataSource={museums} ville={ville} />
-                <HistoricalMonuments dataSource={monuments} ville={ville} />
+                {museums.length != 0 && <Museums dataSource={museums} ville={ville} />}
+                {monuments.length != 0 && <HistoricalMonuments dataSource={monuments} ville={ville} />}
             </div>
         )
     }

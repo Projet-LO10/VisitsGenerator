@@ -164,8 +164,10 @@ const fetchAll = (settings) => {
       let choix;
       if (result.weather.weather.code.toString().substr(0,1) == 8) {
         choix = result.monuments;
+        result.museums = [];
       } else {
         choix = result.museums;
+        result.monuments = [];
       }
       return fetchRoads(choix).then((res)=>{
         result.roads = res;
