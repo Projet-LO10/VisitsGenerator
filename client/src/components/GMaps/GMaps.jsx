@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Map, InfoWindow, Marker, GoogleApiWrapper, Polyline, LatLng } from 'google-maps-react'
-import { Preloader, Card, CardPanel } from 'react-materialize'
+import { Preloader, Card, CardPanel, Collapsible, CollapsibleItem, Row, Icon } from 'react-materialize'
 
 const containerStyle = {
     position: 'relative',
@@ -52,7 +52,7 @@ export class MapContainer extends Component {
           }
         });
         /*https://maps.googleapis.com/maps/api/directions/json?origin=48.87396223516477,2.295111042446485&destination=48.87396223516477,2.295111042446485&waypoints=via:48.86612446131622,2.312576404506803|via:48.87198647229124,2.3316210022659334&key=AIzaSyC2EbNhEBrOMzZFk4vbwpm6h-GTrfXTwH0*/
-        /*fetch(
+    /*fetch(
             proxyurl +
                 'https://maps.googleapis.com/maps/api/directions/json?origin=' + origin + '&destination=' + origin + '&waypoints=' + path + '&key=AIzaSyC2EbNhEBrOMzZFk4vbwpm6h-GTrfXTwH0'
                 //'https://maps.googleapis.com/maps/api/directions/json?origin=48.87396223516477,2.295111042446485&destination=48.87396223516477,2.295111042446485&waypoints=via:48.86612446131622,2.312576404506803|via:48.87198647229124,2.3316210022659334&key=AIzaSyC2EbNhEBrOMzZFk4vbwpm6h-GTrfXTwH0'
@@ -88,86 +88,147 @@ export class MapContainer extends Component {
 
     render() {
         const { dataSource } = this.props
-        console.log(dataSource);
+        // console.log(dataSource)
+        const { steps, distance } = dataSource.roads
 
-        if (dataSource.roads['distance'] != undefined) {
-            console.log(dataSource.coordinates[0]);
-            const itineraire = dataSource.roads['steps']
-            return (
-                <div className="row GMap">
-                    <h3>Votre visite guidée</h3>
-                    <Card className="center blue-grey darken-1 orange-text">
-                        <span className="card-title">Informations sur le trajet</span>
+        return distance ? (
+            <Row>
+                <Collapsible accordion={false}>
+                    <CollapsibleItem icon={<Icon>info</Icon>} header="Informations sur le trajet" expanded>
                         {dataSource.roads['distance'] ? <h6>Distance : {dataSource.roads['distance']['text']}</h6> : <h6>Distance : Chargement...</h6>}
                         {dataSource.roads['duration'] ? <h6>Durée : {dataSource.roads['duration']['text']}</h6> : <h6>Durée : Chargement...</h6>}
-                    </Card>
-                    <Card className="center blue-grey darken-1 orange-text">
-                        <span className="card-title">Etapes du trajet</span>
-                        {itineraire.map((step) => {
-                            let temp = step['html_instructions']
-                            let temp2 = ''
-                            let comp = 0
-                            for (var i = 0; i < temp.length; i++) {
-                                if (temp[i] == '<') {
-                                    if (temp2 == '') {
-                                        temp2 += temp.substr(0, i)
-                                    } else if (comp != 0) {
-                                        temp2 += temp.substr(comp + 1, i - comp - 1)
-                                        comp = 0
-                                    }
-                                }
-                                if (temp[i] == '>') {
-                                    comp = i
-                                }
-                            }
-                            return <h6>{temp2}</h6>
-                        })}
-                        <h6>Retour au point de départ</h6>
-                    </Card>
-                    <Map google={this.props.google} zoom={14} containerStyle={containerStyle} initialCenter={{ lat: dataSource.coordinates[0][1], lng: dataSource.coordinates[0][0] }}>
-                        <Polyline
-                            path={dataSource.pathCoordinates}
-                            options={{
-                                strokeColor: '#FF0000',
-                                strokeOpacity: 1,
-                                strokeWeight: 2,
-                                icons: [
-                                    {
-                                        icon: 'hello',
-                                        offset: '0',
-                                        repeat: '10px',
-                                    },
-                                ],
-                            }}
-                        />
-                        {dataSource.coordinates.map((marker, index) => {
-                          if(index <= 5) {
-                            return  <Marker
-                                onClick={this.onMarkerClick}
-                                name={dataSource.noms[index]}
-                                position={{ lat: marker[1], lng: marker[0] }}
+                    </CollapsibleItem>
+                    <CollapsibleItem icon={<Icon>place</Icon>} header="Votre trajet" expanded>
+                        <Map
+                            google={this.props.google}
+                            zoom={14}
+                            containerStyle={containerStyle}
+                            initialCenter={{ lat: dataSource.coordinates[0][1], lng: dataSource.coordinates[0][0] }}
+                        >
+                            <Polyline
+                                path={dataSource.pathCoordinates}
+                                options={{
+                                    strokeColor: '#FF0000',
+                                    strokeOpacity: 1,
+                                    strokeWeight: 2,
+                                    icons: [
+                                        {
+                                            icon: 'hello',
+                                            offset: '0',
+                                            repeat: '10px',
+                                        },
+                                    ],
+                                }}
                             />
-                          }
-                        })}
-                        <InfoWindow marker={dataSource.activeMarker} visible={dataSource.showingInfoWindow} onClose={this.onClose}>
-                            <div>
-                                <h4>{this.state.selectedPlace.name}</h4>
-                            </div>
-                        </InfoWindow>
-                    </Map>
-                    {/*<Card className="center blue-grey darken-1 orange-text">
-                        <span className="card-title">Informations sur le trajet</span>
-                        {this.state.roads['distance'] && this.props.car ? (
-                            <h6>Economie carbone : {(this.state.roads['distance']['value'] / 1000) * this.props.car.co2_g_km} g</h6>
-                        ) : (
-                            <h6>Economie carbone : Chargement...</h6>
-                        )}
-                    </Card>*/}
-                </div>
-            )
-        } else {
-            return <Preloader active flashing={false} size="big" />
-        }
+                            {dataSource.coordinates.map((marker, index) => {
+                                if (index <= 5) {
+                                    return (
+                                        <Marker
+                                            key={index}
+                                            onClick={this.onMarkerClick}
+                                            name={dataSource.noms[index]}
+                                            position={{ lat: marker[1], lng: marker[0] }}
+                                        />
+                                    )
+                                }
+                            })}
+                            <InfoWindow marker={dataSource.activeMarker} visible={dataSource.showingInfoWindow} onClose={this.onClose}>
+                                <div>
+                                    <h4>{this.state.selectedPlace.name}</h4>
+                                </div>
+                            </InfoWindow>
+                        </Map>
+                    </CollapsibleItem>
+                    <CollapsibleItem icon={<Icon>directions_run</Icon>} header="Votre itinéraire">
+                        {steps.map((step, i) => (
+                            <p key={i} dangerouslySetInnerHTML={{ __html: step['html_instructions'] }} />
+                        ))}
+                    </CollapsibleItem>
+                </Collapsible>
+            </Row>
+        ) : (
+            <Preloader active flashing={false} size="big" />
+        )
+
+        // if (dataSource.roads['distance'] != undefined) {
+        //     console.log(dataSource.coordinates[0])
+        //     const itineraire = dataSource.roads['steps']
+        //     return (
+        //         <div className="row GMap">
+        //             <h3>Votre visite guidée</h3>
+        //             <Card className="center blue-grey darken-1 orange-text">
+        //                 <span className="card-title">Informations sur le trajet</span>
+        //                 {dataSource.roads['distance'] ? <h6>Distance : {dataSource.roads['distance']['text']}</h6> : <h6>Distance : Chargement...</h6>}
+        //                 {dataSource.roads['duration'] ? <h6>Durée : {dataSource.roads['duration']['text']}</h6> : <h6>Durée : Chargement...</h6>}
+        //             </Card>
+        //             <Card className="center blue-grey darken-1 orange-text">
+        //                 <span className="card-title">Etapes du trajet</span>
+        //                 {itineraire.map((step) => {
+        //                     let temp = step['html_instructions']
+        //                     let temp2 = ''
+        //                     let comp = 0
+        //                     for (var i = 0; i < temp.length; i++) {
+        //                         if (temp[i] == '<') {
+        //                             if (temp2 == '') {
+        //                                 temp2 += temp.substr(0, i)
+        //                             } else if (comp != 0) {
+        //                                 temp2 += temp.substr(comp + 1, i - comp - 1)
+        //                                 comp = 0
+        //                             }
+        //                         }
+        //                         if (temp[i] == '>') {
+        //                             comp = i
+        //                         }
+        //                     }
+        //                     return <h6>{temp2}</h6>
+        //                 })}
+        //                 <h6>Retour au point de départ</h6>
+        //             </Card>
+        //             <Map
+        //                 google={this.props.google}
+        //                 zoom={14}
+        //                 containerStyle={containerStyle}
+        //                 initialCenter={{ lat: dataSource.coordinates[0][1], lng: dataSource.coordinates[0][0] }}
+        //             >
+        //                 <Polyline
+        //                     path={dataSource.pathCoordinates}
+        //                     options={{
+        //                         strokeColor: '#FF0000',
+        //                         strokeOpacity: 1,
+        //                         strokeWeight: 2,
+        //                         icons: [
+        //                             {
+        //                                 icon: 'hello',
+        //                                 offset: '0',
+        //                                 repeat: '10px',
+        //                             },
+        //                         ],
+        //                     }}
+        //                 />
+        //                 {dataSource.coordinates.map((marker, index) => {
+        //                     if (index <= 5) {
+        //                         return <Marker onClick={this.onMarkerClick} name={dataSource.noms[index]} position={{ lat: marker[1], lng: marker[0] }} />
+        //                     }
+        //                 })}
+        //                 <InfoWindow marker={dataSource.activeMarker} visible={dataSource.showingInfoWindow} onClose={this.onClose}>
+        //                     <div>
+        //                         <h4>{this.state.selectedPlace.name}</h4>
+        //                     </div>
+        //                 </InfoWindow>
+        //             </Map>
+        //             {/*<Card className="center blue-grey darken-1 orange-text">
+        //                 <span className="card-title">Informations sur le trajet</span>
+        //                 {this.state.roads['distance'] && this.props.car ? (
+        //                     <h6>Economie carbone : {(this.state.roads['distance']['value'] / 1000) * this.props.car.co2_g_km} g</h6>
+        //                 ) : (
+        //                     <h6>Economie carbone : Chargement...</h6>
+        //                 )}
+        //             </Card>*/}
+        //         </div>
+        //     )
+        // } else {
+        //     return <Preloader active flashing={false} size="big" />
+        // }
     }
 }
 

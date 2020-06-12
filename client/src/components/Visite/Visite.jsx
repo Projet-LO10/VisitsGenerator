@@ -52,12 +52,12 @@ class Visite extends Component {
         const { weather, museums, monuments, vehicle, roads, eco } = this.state.data
         return (
             <div>
+                <GMaps dataSource={roads} ville={ville} />
                 {vehicle && <Vehicles car={vehicle} />}
                 {vehicle && <Ecology eco={eco} car={vehicle} />}
                 <Weather dataSource={weather} ville={ville} date={date} />
                 <Museums dataSource={museums} ville={ville} />
                 <HistoricalMonuments dataSource={monuments} ville={ville} />
-                {<GMaps dataSource={roads} ville={ville} />}
             </div>
         )
     }
