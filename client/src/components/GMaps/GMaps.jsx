@@ -98,7 +98,7 @@ export class MapContainer extends Component {
                         {dataSource.roads['distance'] ? <h6>Distance : {dataSource.roads['distance']['text']}</h6> : <h6>Distance : Chargement...</h6>}
                         {dataSource.roads['duration'] ? <h6>Durée : {dataSource.roads['duration']['text']}</h6> : <h6>Durée : Chargement...</h6>}
                     </CollapsibleItem>
-                    <CollapsibleItem icon={<Icon>place</Icon>} header="Votre trajet" expanded>
+                    <CollapsibleItem icon={<Icon>place</Icon>} header="La carte" expanded>
                         <Map
                             google={this.props.google}
                             zoom={14}
