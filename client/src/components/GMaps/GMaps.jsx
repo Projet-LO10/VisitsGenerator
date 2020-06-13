@@ -103,6 +103,7 @@ export class MapContainer extends Component {
                             zoom={14}
                             containerStyle={containerStyle}
                             initialCenter={{ lat: dataSource.coordinates[0][1], lng: dataSource.coordinates[0][0] }}
+                            center={{ lat: dataSource.coordinates[0][1], lng: dataSource.coordinates[0][0] }}
                         >
                             <Polyline
                                 path={dataSource.pathCoordinates}
