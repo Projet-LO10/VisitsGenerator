@@ -85,7 +85,7 @@ export class MapContainer extends Component {
     }*/
 
     render() {
-        const { dataSource } = this.props
+        const { dataSource, eco } = this.props
         // console.log(dataSource)
         const { steps, distance } = dataSource.roads
 
@@ -95,6 +95,7 @@ export class MapContainer extends Component {
                     <CollapsibleItem icon={<Icon>info</Icon>} header="Informations sur le trajet" expanded>
                         {dataSource.roads['distance'] ? <h6>Distance : {dataSource.roads['distance']['text']}</h6> : <h6>Distance : Chargement...</h6>}
                         {dataSource.roads['duration'] ? <h6>Durée : {dataSource.roads['duration']['text']}</h6> : <h6>Durée : Chargement...</h6>}
+                        {eco ? <h6>Economie carbone : {eco} g</h6> : ""}
                     </CollapsibleItem>
                     <CollapsibleItem icon={<Icon>place</Icon>} header="La carte" expanded>
                         <Map
