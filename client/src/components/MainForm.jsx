@@ -10,13 +10,13 @@ import CarForm from 'components/CarForm.jsx'
 class MainForm extends Component {
     constructor(props) {
         super(props)
-        const params = new URLSearchParams(window.location.search)
+        this.params = new URLSearchParams(window.location.search)
         this.state = {
             modeleSelect: undefined,
             car: undefined,
-            cityName: params.has('ville') ? params.get('ville') : '',
+            cityName: this.params.has('ville') ? this.params.get('ville') : '',
             // date sera un objet moment()
-            date: moment(),
+            date: this.params.has('date') ? moment(this.params.get('date'),'DD-MMM-YYYY') : moment(),
         }
     }
 
@@ -92,7 +92,7 @@ class MainForm extends Component {
                         placeholder="Date"
                         options={{
                             // Valeur par défaut
-                            defaultDate: moment().toDate(),
+                            //defaultDate: this.params.has('date') ? moment(this.params.get('date'),'DD-MMM-YYYY').toDate() : moment().toDate(),
                             // Se ferme automatiquement quand l'utilisateur clique
                             autoClose: true,
                             // Format utilisé pour l'affichage de la date
@@ -105,7 +105,7 @@ class MainForm extends Component {
                             onSelect: this.handleDateSelect,
                         }}
                         autoComplete="off"
-                        defaultValue={moment().format('DD MMM YYYY')}
+                        defaultValue={moment(this.state.date).format('DD MMM YYYY')}
                         l={4}
                     />
                 </Row>
