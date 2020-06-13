@@ -131,6 +131,17 @@ const handleOptionalParameters = (settings, promises) => {
     }
 }
 
+const shuffle = (arr) => {
+  var array = [...arr];
+  for (let i = array.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * i)
+    const temp = array[i]
+    array[i] = array[j]
+    array[j] = temp
+  }
+  return array;
+}
+
 /**
  * Retourne une promesse :
  * resolve (then) quand tous les fetch ont été accomplis. Le premier paramètre du then est un objet content les résultats des différents fetch @see keys
@@ -161,6 +172,14 @@ const fetchAll = (settings) => {
                 )
             })
     ).then((result) => {
+      if (result.museums){
+        result.museums.records = shuffle(result.museums.records)
+        //return result.museums.records
+      }
+      if (result.monuments){
+        result.monuments.records = shuffle(result.monuments.records)
+        //return result.monuments
+      }
       let choix;
       if (result.weather.weather.code.toString().substr(0,1) == 8) {
         choix = result.monuments;
@@ -178,7 +197,6 @@ const fetchAll = (settings) => {
         }
         return result;
       });
-      //return result;
     })
 }
 
