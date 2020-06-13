@@ -3,16 +3,22 @@ const moment = require('moment')
 
 const maxPOI = 5;
 
-const fetchRoads = (dataMuseums) => {
-    const museums = dataMuseums.records.filter((museum) => museum.hasOwnProperty('geometry'))
+const fetchRoads = (dataPOI) => {
+    const pois = dataPOI.records.filter((museum) => museum.hasOwnProperty('geometry'))
     let coordinates = [];
     let noms = [];
-    museums.map((museum) => {
-        // Certains musées sont dôtés de coordonnées, d'autres noms:
-        // Ceux-ci ont un objet geometry
-        // avec un champ coordinates [longitude, latitude]
-        noms.push(museum['fields']['nom_du_musee']);
-        coordinates.push(museum.geometry['coordinates']);
+    pois.map((poi) => {
+      // Certains musées sont dôtés de coordonnées, d'autres non:
+      // Ceux-ci ont un objet geometry
+      // avec un champ coordinates [longitude, latitude]
+
+      if(poi['fields']['nom_du_musee']){
+        noms.push(poi['fields']['nom_du_musee']);
+      }else if(poi['fields']['tico']){
+        noms.push(poi['fields']['tico'])
+      }
+
+      coordinates.push(poi.geometry['coordinates']);
     });
     let origin = '';
     let path = '';
