@@ -2,6 +2,7 @@ const fetch = require('node-fetch')
 const moment = require('moment')
 
 const proxyurl = 'https://cors-anywhere.herokuapp.com/'
+const maxPOI = 5;
 
 const fetchRoads = (dataMuseums) => {
     const museums = dataMuseums.records.filter((museum) => museum.hasOwnProperty('geometry'))
@@ -174,11 +175,15 @@ const fetchAll = (settings) => {
     ).then((result) => {
       if (result.museums){
         result.museums.records = shuffle(result.museums.records)
-        //return result.museums.records
+        if (result.museums.records.length > maxPOI){
+          result.museums.records = result.museums.records.slice(0, maxPOI);
+        }
       }
       if (result.monuments){
         result.monuments.records = shuffle(result.monuments.records)
-        //return result.monuments
+        if (result.monuments.records.length > maxPOI){
+          result.monuments.records = result.monuments.records.slice(0, maxPOI);
+        }
       }
       let choix;
       if (result.weather.weather.code.toString().substr(0,1) == 8) {
