@@ -28,9 +28,9 @@ class HistoricalMonuments extends Component {
                             return (
                                 <CollectionItem key={monument.recordid}>
                                     <p><strong>{monument.fields['tico']}</strong></p>
-                                    <p>{monument.fields['adrs']}</p>
-                                    <p>{monument.fields['hist']}</p>
-                                    <p>{monument.fields['scle']}</p>
+                                    <div>{monument.fields['wadrs']? monument.fields['wadrs'] : monument.fields['adrs']}</div>
+                                    <div>{monument.fields['scle']}</div>
+                                    <div>{monument.fields['hist']}</div>
                                 </CollectionItem>
                             )
                         }
