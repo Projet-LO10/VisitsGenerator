@@ -1,7 +1,6 @@
 const fetch = require('node-fetch')
 const moment = require('moment')
 
-const proxyurl = 'https://cors-anywhere.herokuapp.com/'
 const maxPOI = 5;
 
 const fetchRoads = (dataMuseums) => {
@@ -15,8 +14,6 @@ const fetchRoads = (dataMuseums) => {
         noms.push(museum['fields']['nom_du_musee']);
         coordinates.push(museum.geometry['coordinates']);
     });
-    //this.setState({noms: noms});
-    //this.setState({coordinates: coordinates});
     let origin = '';
     let path = '';
     coordinates.map((coordinate, index) => {
@@ -30,21 +27,16 @@ const fetchRoads = (dataMuseums) => {
         }
       }
     });
-    //console.log(museums);
-    /*https://maps.googleapis.com/maps/api/directions/json?origin=48.87396223516477,2.295111042446485&destination=48.87396223516477,2.295111042446485&waypoints=via:48.86612446131622,2.312576404506803|via:48.87198647229124,2.3316210022659334&key=AIzaSyC2EbNhEBrOMzZFk4vbwpm6h-GTrfXTwH0*/
     return fetch(
-        //proxyurl +
-            'https://maps.googleapis.com/maps/api/directions/json?origin=' + origin + '&destination=' + origin + '&waypoints=' + path + '&language=fr&mode=walking&key=AIzaSyC2EbNhEBrOMzZFk4vbwpm6h-GTrfXTwH0'
-            //'https://maps.googleapis.com/maps/api/directions/json?origin=48.87396223516477,2.295111042446485&destination=48.87396223516477,2.295111042446485&waypoints=via:48.86612446131622,2.312576404506803|via:48.87198647229124,2.3316210022659334&key=AIzaSyC2EbNhEBrOMzZFk4vbwpm6h-GTrfXTwH0'
+      'https://maps.googleapis.com/maps/api/directions/json?origin=' + origin + '&destination=' + origin + '&waypoints=' + path + '&language=fr&mode=walking&key=AIzaSyC2EbNhEBrOMzZFk4vbwpm6h-GTrfXTwH0'
+      //'https://maps.googleapis.com/maps/api/directions/json?origin=48.87396223516477,2.295111042446485&destination=48.87396223516477,2.295111042446485&waypoints=via:48.86612446131622,2.312576404506803|via:48.87198647229124,2.3316210022659334&key=AIzaSyC2EbNhEBrOMzZFk4vbwpm6h-GTrfXTwH0'
     )
     .then((response) => response.json())
     .then((result) => {
         var res = {};
         res.coordinates = coordinates;
         res.noms = noms;
-        //this.setState({ roads: result['routes'][0]['legs'][0] })
         res.roads = result['routes'][0]['legs'][0];
-        //console.log(result);
         let temp = []
         temp.push({ lat: res.roads['start_location']['lat'], lng: res.roads['start_location']['lng'] })
         for (var i = 0; i < res.roads['steps'].length; i++) {
@@ -52,9 +44,6 @@ const fetchRoads = (dataMuseums) => {
         }
         temp.push({ lat: res.roads['end_location']['lat'], lng: res.roads['end_location']['lng'] })
         res.pathCoordinates = temp;
-
-        //console.log(res);
-
         return res;
     });
 }

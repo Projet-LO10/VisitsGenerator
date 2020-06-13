@@ -9,8 +9,6 @@ const containerStyle = {
     height: '500px',
 }
 
-//const proxyurl = 'https://cors-anywhere.herokuapp.com/'
-//const proxyurl = 'http://www.bertrandpotart.com/freesurf/'
 export class MapContainer extends Component {
     state = {
         showingInfoWindow: false, //Hides or the shows the infoWindow
