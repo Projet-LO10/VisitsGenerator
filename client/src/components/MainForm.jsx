@@ -10,10 +10,11 @@ import CarForm from 'components/CarForm.jsx'
 class MainForm extends Component {
     constructor(props) {
         super(props)
+        const params = new URLSearchParams(window.location.search)
         this.state = {
             modeleSelect: undefined,
             car: undefined,
-            cityName: '',
+            cityName: params.has('ville') ? params.get('ville') : '',
             // date sera un objet moment()
             date: moment(),
         }

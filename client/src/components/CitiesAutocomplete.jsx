@@ -5,8 +5,9 @@ import { Autocomplete, ProgressBar } from 'react-materialize'
 class CitiesAutocomplete extends Component {
     constructor(props) {
         super(props)
+        const params = new URLSearchParams(window.location.search)
         this.state = {
-            cityInputValue: '',
+            cityInputValue: params.has('ville') ? params.get('ville') : '',
             currentCity: {},
             autocompleteData: {},
         }
