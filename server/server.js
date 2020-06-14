@@ -102,8 +102,8 @@ const handleAccept = (req, res, next) => {
             result = yaml.stringify(result)
         },
         default: () => {
-            // Indique que le résultat de la requête sera au format JSON
-            res.setHeader('Content-Type', 'application/json; charset=utf-8')
+            // Erreur 406
+            res.sendStatus(406)
         },
     })
 
