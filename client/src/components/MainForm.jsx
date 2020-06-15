@@ -83,9 +83,7 @@ class MainForm extends Component {
     render() {
         return (
             <div className="form">
-                <div>
-                  <h3>Quelle ville allez-vous découvrir aujourd'hui ? </h3>
-                </div>
+                  <h4>Quelle ville allez-vous découvrir aujourd'hui ? </h4>
                 <Row>
                     <CitiesAutocomplete placeholder="Ville" cities={this.props.cities} onCityChange={this.handleCityChange} />
                     <DatePicker
