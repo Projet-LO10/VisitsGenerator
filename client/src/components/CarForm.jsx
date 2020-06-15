@@ -35,10 +35,12 @@ class CarForm extends Component {
       fetch('https://public.opendatasoft.com/api/records/1.0/search/?&dataset=vehicules-commercialises&sort=puissance_maximale&facet=marque&facet=modele_utac&facet=carburant&facet=hybride&facet=puissance_administrative&facet=boite_de_vitesse&facet=annee&facet=carrosserie&facet=gamme')
       .then(response => response.json())
       .then((result) => {
+          const forbiddenMakes = ['ALFA-ROMEO', 'ROLLS-ROYCE']
           var marques = result.facet_groups.find(element => element.name == "marque").facets;
 
           var res = [];
           marques.forEach(element => res.push(element.path));
+          res = res.filter((marque) => !forbiddenMakes.includes(marque))
 
           this.setState({ marques: res.sort()});
       })
