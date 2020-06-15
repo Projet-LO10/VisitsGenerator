@@ -1,12 +1,22 @@
-.form{
+.form {
     min-height: 100%;
-    padding-bottom:5%;
+    padding-bottom: 5%;
 }
 
-.card-meteo{
-  height: 195px;
+.card-meteo {
+    height: 195px;
 }
 
-strong{
-  font-weight: 700 !important;
+strong {
+    font-weight: 700 !important;
+}
+
+#root {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
 }

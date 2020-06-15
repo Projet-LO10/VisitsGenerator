@@ -4,14 +4,12 @@ import { Preloader } from 'react-materialize'
 import Navbar from 'components/Navbar/Navbar'
 import MainForm from 'components/MainForm'
 import VisiteController from 'components/Visite/VisiteController'
-import MapContainer from 'components/GMaps/GMaps'
 
 class App extends Component {
     constructor(props) {
         super(props)
         this.state = {
             cities: undefined,
-            //message: null,
         }
     }
 
@@ -26,7 +24,7 @@ class App extends Component {
     }
 
     callbackFunction = (childData) => {
-      this.setState({message: childData})
+        this.setState({ message: childData })
     }
 
     render() {
@@ -39,23 +37,23 @@ class App extends Component {
                 </header>
 
                 {/* Swith pour router l'URI */}
-                <Switch>
-                    {/* L'attribut 'path' représente l'URI concernée */}
-                    <Route path="/">
-                        <div className="container">
-                            {cities ? <MainForm cities={cities} parentCallback={this.callbackFunction} /> : <Preloader active flashing={false} size="big" />}
-                            <VisiteController />
-                            {/* { <MapContainer car={this.state.message ? this.state.message.carProperty : null}/> } */}
-                        </div>
-                    </Route>
-                </Switch>
+                <main>
+                    <Switch>
+                        {/* L'attribut 'path' représente l'URI concernée */}
+                        <Route path="/">
+                            <div className="container">
+                                {cities ? <MainForm cities={cities} /> : <Preloader active flashing={false} size="big" />}
+                                <VisiteController />
+                                {/* { <MapContainer car={this.state.message ? this.state.message.carProperty : null}/> } */}
+                            </div>
+                        </Route>
+                    </Switch>
+                </main>
 
                 {/* Footer */}
                 <footer className="page-footer blue darken-3">
                     <div className="footer-copyright blue darken-4">
-                        <div className="container">
-                            Made with ❤️ by Axel, Damien and Victor
-                        </div>
+                        <div className="container">Made with ❤️ by Axel, Damien and Victor</div>
                     </div>
                 </footer>
             </Router>
