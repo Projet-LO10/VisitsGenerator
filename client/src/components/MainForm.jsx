@@ -55,7 +55,7 @@ class MainForm extends Component {
         }
 
         this.props.history.push({
-            pathname: '/',
+            pathname: '/visite',
             search: queryString.stringify(query),
         })
     }

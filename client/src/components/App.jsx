@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import { Preloader } from 'react-materialize'
+import { Preloader, Container } from 'react-materialize'
 import Navbar from 'components/Navbar/Navbar'
 import MainForm from 'components/MainForm'
 import VisiteController from 'components/Visite/VisiteController'
@@ -23,10 +23,6 @@ class App extends Component {
             .then((data) => this.setState({ cities: data }))
     }
 
-    callbackFunction = (childData) => {
-        this.setState({ message: childData })
-    }
-
     render() {
         const { cities } = this.state
         return (
@@ -38,16 +34,15 @@ class App extends Component {
 
                 {/* Swith pour router l'URI */}
                 <main>
-                    <Switch>
-                        {/* L'attribut 'path' représente l'URI concernée */}
-                        <Route path="/">
-                            <div className="container">
-                                {cities ? <MainForm cities={cities} /> : <Preloader active flashing={false} size="big" />}
+                    <Container>
+                        {cities ? <MainForm cities={cities} /> : <Preloader active flashing={false} size="big" />}
+                        <Switch>
+                            {/* L'attribut 'path' représente l'URI concernée */}
+                            <Route path="/visite">
                                 <VisiteController />
-                                {/* { <MapContainer car={this.state.message ? this.state.message.carProperty : null}/> } */}
-                            </div>
-                        </Route>
-                    </Switch>
+                            </Route>
+                        </Switch>
+                    </Container>
                 </main>
 
                 {/* Footer */}
