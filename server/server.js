@@ -22,8 +22,8 @@ const verifyParametersPresence = (req, res, next) => {
         // Appel au prochain middleware
         next()
     } else {
-        // Si les paramètres sont invalides, l'erreur 400 est renvoyée
-        res.sendStatus(400)
+        // Si les paramètres sont invalides, l'erreur 404 est renvoyée
+        res.sendStatus(404)
     }
 }
 
@@ -83,6 +83,7 @@ const fetchResults = (req, res, next) => {
 const handleAccept = (req, res, next) => {
     // Récupération de la variable locals.result
     let { result } = res.locals
+
     // En fonction du header 'Accept'
     res.format({
         'application/json': () => {
@@ -107,6 +108,20 @@ const handleAccept = (req, res, next) => {
         },
     })
 
+    // En fonction du header 'Accept'
+    res.format({
+        'application/json': () => {
+            // Retour du résultat au format JSON
+        },
+        'application/x-yaml': () => {
+            // Retour du résultat au format YAML
+        },
+        default: () => {
+            // Erreur 406
+            res.sendStatus(406)
+        },
+    })
+
     // Retourne le résultat
     res.send(result)
 }
@@ -120,7 +135,9 @@ const startServer = (port, dist, cities) => {
     // Suppression du header "x-powered-by" pour des raisons de sécurité
     app.disable('x-powered-by')
     app.use(express.static(dist))
+
     app.get('/api/visite', verifyParametersPresence, verifyParametersValidity(cities), fetchResults, handleAccept)
+
     app.get('*', (req, res) => {
         res.sendFile(path.join(dist, 'index.html'))
     })
